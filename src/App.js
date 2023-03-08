@@ -79,6 +79,7 @@ const App = () => {
 						deleteAlert={deleteAlert}
 					/>
 				))}
+
 			</Fragment>
 		)
 }
