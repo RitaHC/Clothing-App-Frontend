@@ -1,7 +1,13 @@
 import StripeCheckout from "react-stripe-checkout"
 import { useState } from "react"
 import axios from "axios"
-import { toast } from 'react-toast'
+import React from "react"
+import { ToastContainer, toast } from 'react-toast'
+import { Toast } from 'react-bootstrap';
+
+
+
+
 
 
 
@@ -13,26 +19,46 @@ const Home = (props) => {
 
 	
 
+	//=============================  STRIPE PAYMENTS ====================
 	// Sample product testing
-	const [product, setProduct] = useState({
+	const [item, setItem] = useState({
 		name: "Sample Name",
-		price: 200,
+		price: 10,
 		description: 'This is sample description'
 	})
 
+	// const response = (status) => {
+	// 	if (status === 200) {
+
+	// 	}
+	// }
+
 	async function handleToken(token, addresses) {
-		const response = await axios.post('http://localhost:8000/checkout/', {token, product})
+		const response = await axios.post('http://localhost:8000/checkout/', {token, item})
 
 		
 		// take response and check status
 		console.log(response.status)
 
 		if(response.status === 200) {
-			toast('Success Payment Completed', {type: 'success'})
+			console.log('Toastttttttt')
+			
+			toast.success('Success Payment Completed')
+			return(
+			<Toast>
+				<Toast.Header>
+					{/* <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" /> */}
+					<strong className="me-auto">Bootstrap</strong>
+					<small>Payment Successful</small>
+				</Toast.Header>
+				<Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+				</Toast>
+			)
 		} else {
 			toast('Failure payment is not completed', {type: 'failure'})
 		}
 	}
+	//=============================  STRIPE ===================================
 
 	return (
 		<>
@@ -45,8 +71,8 @@ const Home = (props) => {
 				className= 'center'
 				stripeKey="pk_test_51MjOxGGWn0da1VDTZPMDt4ab4vsAOBSNI9oNrXq7gwxVLCHtX0EX8NicbDcPtl2muAJjOJOhePjgVfCBJA1lW7DF00q3pxqjlN"
 				token={handleToken}
-				amount={product.price*100}
-				name={product.name}
+				amount={item.price*100}
+				name={item.name}
 				billingAddress
 				shippingAddress
 				/>
