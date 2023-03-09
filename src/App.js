@@ -14,7 +14,8 @@ import SignOut from './components/auth/SignOut'
 import ChangePassword from './components/auth/ChangePassword'
 
 ///////////////////////////////////////////
-import ItemIndex from './components/shared/Item/ItemIndex'
+import ItemIndex from './components/Item/ItemIndex'
+import ShowItem from './components/Item/ShowItem'
 
 const App = () => {
 
@@ -62,8 +63,10 @@ const App = () => {
 							element={<SignUp msgAlert={msgAlert} setUser={setUser} />}
 						/>
 
+
+
 						<Route
-							path= '/items'
+							path= '/products'
 							element={
 								<ItemIndex
 								user={user}
@@ -71,8 +74,18 @@ const App = () => {
 								setItem={setItem}
 								/>
 							}
-							
+						/>
 
+  						<Route
+							path= '/products/:itemId'
+							element={
+								<ShowItem
+								msgAlert={msgAlert}
+								user={user}
+								item={item}
+								setItem={setItem}
+								/>
+							}
 						/>
 
 						<Route

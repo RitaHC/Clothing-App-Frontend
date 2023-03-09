@@ -6,3 +6,9 @@ import axios from 'axios'
 export const allitems = () => {
     return axios(`${apiUrl}/items/`)
 }
+
+
+//------------------ SHOW (one item) ---------------
+export const showItem = (id) => {
+    return axios(`${apiUrl}/items/${id}`)
+}

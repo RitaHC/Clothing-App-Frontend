@@ -1,10 +1,12 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import LoadingScreen from '../LoadingScreen'
+import LoadingScreen from '../shared/LoadingScreen'
 import { useNavigate } from 'react-router-dom'
-import { allitems } from '../../../api/item'
+import { allitems } from '../../api/item'
 import { Card, Container, Button, Col } from "react-bootstrap"
 import Row from 'react-bootstrap/Row'
+import { Link } from 'react-router-dom'
+
 
 
 
@@ -42,7 +44,10 @@ function ItemIndex(props) {
                     {/* <img class="card-img-top" src="..." alt="Card image cap"/> */}
                     <Card.Img variant="top" src={i.img} />
                     <div class="card-body">
-                    {i.title}
+                      <Link to={`/products/${i._id}`}>
+                        {i.title}
+                      </Link>
+                    
                     <Row>
                     <Col><Button>View</Button></Col>
                     <Col>Price: ${i.price}</Col>
