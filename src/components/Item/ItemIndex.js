@@ -24,7 +24,7 @@ function ItemIndex(props) {
                 .then(res=> setItem(res.data.items))
     
         }, [])
-        console.log(`All Items`, item)
+        // console.log(`All Items`, item)
 
         // Loading Screen function to give item time to make call
 

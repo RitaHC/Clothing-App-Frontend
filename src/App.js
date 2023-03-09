@@ -16,6 +16,14 @@ import ChangePassword from './components/auth/ChangePassword'
 ///////////////////////////////////////////
 import ItemIndex from './components/Item/ItemIndex'
 import ShowItem from './components/Item/ShowItem'
+//////////// User Dashboard
+import { showUser } from './api/auth'
+import Dashboard from './components/auth/Dashboard'
+
+///////////// Show Cart
+import ShowCart from './components/Cart/ShowCart'
+import { showCart } from './api/cart'
+
 
 const App = () => {
 
@@ -31,10 +39,10 @@ const App = () => {
 	color: ''
   })
 
-  console.log('user in app', user)
-  console.log('message alerts', msgAlerts)
+//   console.log('user in app', user)
+//   console.log('message alerts', msgAlerts)
   const clearUser = () => {
-    console.log('clear user ran')
+    // console.log('clear user ran')
     setUser(null)
   }
 
@@ -76,6 +84,22 @@ const App = () => {
 							}
 						/>
 
+
+						<Route
+							path= '/dashboard'
+							element={
+								<Dashboard
+								msgAlert={msgAlert}
+								user={user}
+								item={item}
+								setItem={setItem}
+								/>
+							}
+						/>
+
+
+
+
   						<Route
 							path= '/products/:itemId'
 							element={
@@ -87,6 +111,21 @@ const App = () => {
 								/>
 							}
 						/>
+
+
+						<Route
+							path= '/cart/:cartId'
+							element={
+								<ShowCart
+								msgAlert={msgAlert}
+								user={user}
+								item={item}
+								setItem={setItem}
+								/>
+							}
+						/>
+
+
 
 						<Route
 							path='/sign-in'

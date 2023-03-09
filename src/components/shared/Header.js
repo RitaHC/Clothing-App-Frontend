@@ -1,7 +1,14 @@
 import React, { Fragment } from 'react'
+import { useState, useEffect } from 'react'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import { Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import { showUser } from '../../api/auth'
+
+
+
+
 const linkStyle = {
     color: 'white',
     textDecoration: 'none'
@@ -46,7 +53,22 @@ const alwaysOptions = (
 	</>
 )
 
-const Header = ({ user }) => (
+const Header = ({ user }) => {
+
+	// const { userId } = useParams();
+
+	// useEffect(() => {
+	// 	showUser(userId)
+	// 		.then(res=> console.log(`---------- User Show Dashboard--------`, res))
+	//   }, [userId]);
+
+	// // showUser(userId)
+	// // 		.then(res=> console.log(`---------- User Show Dashboard--------`, res))
+
+
+
+return (
+	
 	<Navbar bg='primary' variant='dark' expand='md'>
 		<Navbar.Brand>
             <Link to='/' style={linkStyle}>
@@ -55,15 +77,33 @@ const Header = ({ user }) => (
         </Navbar.Brand>
 		<Navbar.Toggle aria-controls='basic-navbar-nav' />
 		<Navbar.Collapse id='basic-navbar-nav'>
-			<Nav className='ml-auto'>
+			{/* <Nav ClassName='ml-auto'>
+				
 				{user && (
-					<span className='navbar-text mr-2'>Welcome, {user.email}</span>
+					<span ClassName='navbar-text mr-2'>Welcome, {user.email}</span>
 				)}
 				{alwaysOptions}
 				{user ? authenticatedOptions : unauthenticatedOptions}
-			</Nav>
+				
+			</Nav> */}
+
+			<Navbar.Brand>
+			<Link to={`/dashboard/`} style={linkStyle}>
+				{user && (
+						<span className='navbar-text mr-2'>Hello {user.email}</span>
+					)}
+					
+					{alwaysOptions}
+					{user ? authenticatedOptions : unauthenticatedOptions}
+                
+            </Link>
+
+
+        </Navbar.Brand>
+
+
 		</Navbar.Collapse>
 	</Navbar>
-)
+)}
 
 export default Header

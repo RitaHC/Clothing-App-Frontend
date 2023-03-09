@@ -53,3 +53,8 @@ export const changePassword = (passwords, user) => {
 		},
 	})
 }
+
+//------------------ SHOW (one User) Dashboard---------------
+export const showUser = (id) => {
+    return axios(`${apiUrl}/users/${id}`)
+}
