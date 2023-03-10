@@ -4,8 +4,18 @@ import axios from 'axios'
 
 
 //------------------ SHOW (one cart) ---------------
-export const showCart = (id) => {
-    return axios(`${apiUrl}/cart/${id}`)
+// export const showCart = ( cart ,id) => {
+//     return axios({
+//         url: `${apiUrl}/cart/${id}`}
+        
+//     )}
+
+export const showCart = (cart, id) => {
+    return axios({
+        method:'GET',
+        url: `${apiUrl}/cart/${id}`,
+        data: {cart: cart}
+    })
 }
 
 //------------------ CREATE (and PUSH items in cart) ---------------
