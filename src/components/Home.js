@@ -4,8 +4,11 @@ import axios from "axios"
 import React from "react"
 import { ToastContainer, toast } from 'react-toast'
 import { Toast } from 'react-bootstrap';
+
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
+import { Button, Col, Row } from 'react-bootstrap';
+import jsPDF from "jspdf"
 
 
 
@@ -17,11 +20,11 @@ const Home = (props) => {
 
 	//=============================  STRIPE PAYMENTS ====================
 	// Sample product testing
-	const [item, setItem] = useState({
-		name: "Sample Name",
-		price: 10,
-		description: 'This is sample description'
-	})
+	// const [item, setItem] = useState({
+	// 	name: "Sample Name",
+	// 	price: 10,
+	// 	description: 'This is sample description'
+	// })
 
 	// const response = (status) => {
 	// 	if (status === 200) {
@@ -29,38 +32,51 @@ const Home = (props) => {
 	// 	}
 	// }
 
-	async function handleToken(token, addresses) {
-		const response = await axios.post('http://localhost:8000/checkout/', {token, item})
+	// //--------------------- Create PDF ----------------
+	// const generatePdf = () => {
+	// 	const doc = new jsPDF("p", "pt", "a4")
+	// 	doc.html(document.querySelector('#content'), {
+	// 		callback: function(pdf){
+	// 			pdf.save("PaymentReceipt.pdf")
+	// 		}
+	// 	})
+
+	// }
+	// //-------------------------------------------------
+
+	// async function handleToken(token, addresses) {
+	// 	const response = await axios.post('http://localhost:8000/checkout/', {token, item})
 
 		
-		// take response and check status
-		console.log(response.status)
+	// 	// take response and check status
+	// 	console.log(response.status)
 
-		if(response.status === 200) {
-			console.log('Toastttttttt')
+	// 	if(response.status === 200) {
+	// 		console.log('Toastttttttt')
 			
-			toast.success('Success Payment Completed')
-			return(
-			<Toast>
-				<Toast.Header>
-					{/* <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" /> */}
-					<strong className="me-auto">Bootstrap</strong>
-					<small>Payment Successful</small>
-				</Toast.Header>
-				<Toast.Body>Hello, world! This is a toast message.</Toast.Body>
-				</Toast>
-			)
-		} else {
-			toast('Failure payment is not completed', {type: 'failure'})
-		}
-	}
+	// 		toast.success('Success Payment Completed')
+	// 		return(
+	// 		<Toast>
+	// 			<Toast.Header>
+	// 				{/* <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" /> */}
+	// 				<strong className="me-auto">Bootstrap</strong>
+	// 				<small>Payment Successful</small>
+	// 			</Toast.Header>
+	// 			<Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+	// 			</Toast>
+	// 		)
+	// 	} else {
+	// 		toast('Failure payment is not completed', {type: 'failure'})
+	// 	}
+	// }
 	//=============================  STRIPE ===================================
 
 	return (
 		<>
+		<div id="content">
 			<h2>Home Page</h2>
 
-			<h1>STRIPE PAYMENT TESTING</h1>
+			{/* <h1>STRIPE PAYMENT TESTING</h1>
 			<br/><br/>
 			<div class="form-group container">
 				<StripeCheckout 
@@ -72,8 +88,14 @@ const Home = (props) => {
 				billingAddress
 				shippingAddress
 				/>
-			</div>
+			</div> */}
 
+
+
+
+
+			{/* <Button onClick={generatePdf} type="primary">Download Receipt</Button> */}
+			</div>
 
 		</>
 	)

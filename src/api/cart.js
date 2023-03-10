@@ -22,3 +22,11 @@ export const cartItemPush = (cart, userId, itemId) => {
     });
   };
   
+//------------------  turn cart active to false ---------------
+export const activeFalse = (cart, cartId) => {
+  return axios({
+    url: `${apiUrl}/cart/checkout/${cartId}`,
+    method: 'PATCH',
+    data: {cart: cart}
+  })
+}
