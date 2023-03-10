@@ -22,6 +22,15 @@ function ShowCart(props) {
     const { cartId } = useParams()
     const nav = useNavigate()
 
+    //================== Count items Function =============
+    // const fc = (val) => {
+    //     return val.reduce((acc, item) => {
+    //       const id = item.id
+    //       acc[id] ? acc[id] += 1 : acc[id] = 1
+    //       return acc
+    //     }, {})
+    //   }
+
     	//=============================  STRIPE PAYMENTS ====================
         const [item, setItem] = useState({
             name: user.email,
@@ -51,16 +60,84 @@ function ShowCart(props) {
   }
 
    // Map over the products in the cart and render each product
-   
-   const allProductsInCart = cart.products.map(product => (
-    <Col key={product._id}>
-            <Figure>
-            <Figure.Image width={350} height={180} alt='171x180' src={product.img} />
-            {product.price}
-          </Figure>
+
+
+
+
+    const repetition = cart.products.reduce((acc, item) => {
+        const id = item._id
+        const img = item.img
+            acc[id] ? acc[id] += 1 : acc[id] = 1
+            if (id.length > 1){
+                return acc
+            } 
+            
+    }, {})
+        console.log(`Item number repetitions`, repetition)
+
+
+//     const repetition = cart.products.reduce((acc, item) => {
+//         const img = item.img
+//             acc[img] ? acc[img] += 1 : acc[img] = 1
+//             if (img.length > 1){
+//                 return acc
+//             } 
+            
+//     }, {})
+//     console.log(`Item number repetitions`, repetition)
+
+
+//    const allProductsInCart = cart.products.map(product => {
+//     if (product.img.length === 1){
+//         return null
+//     }
+//      return(
+//     <Col key={product._id}>
+//             <Figure>
+//                 <Figure.Image width={350} height={180} alt='171x180' src={product.img} />
+//                 {product.price}
+//             </Figure>
       
+//     </Col>
+    
+//   )
+// }
+// )
+////////////////////// conditional rendering of img ///////////////////
+
+// adding an item only once in the itemNumber 
+const itemNumber = {};
+cart.products.forEach(item => {
+  const img = item.img;
+  if (img && !(img in itemNumber)) {
+    itemNumber[img] = 1;
+  } else if (img) {
+    itemNumber[img]++;
+  }
+});
+
+console.log(`Item number repetitions`, itemNumber)
+
+const alreadyRendered = {};
+const allProductsInCart = cart.products.map(product => {
+    // if it already exist
+  if (product.img.length === 1 || product.img in alreadyRendered) {
+    return null;
+  }
+  alreadyRendered[product.img] = true;
+  return (
+    <Col key={product._id}>
+      <Figure>
+        <Figure.Image width={350} height={180} alt='171x180' src={product.img} />
+        {product.price} <br/>
+        
+      </Figure>
     </Col>
-  ))
+  );
+}).filter(Boolean);
+
+
+  
    
     // Calculate the total price of products in the cart
     const calculateTotalPrice = () => {
@@ -113,8 +190,8 @@ function ShowCart(props) {
         Total Bill = {totalBill}
 
 
-        <h1>STRIPE PAYMENT TESTING</h1>
-			<br/><br/>
+        
+			
 			<div class="form-group container">
 				<StripeCheckout 
 				className= 'center'
