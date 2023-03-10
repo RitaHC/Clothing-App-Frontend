@@ -22,7 +22,7 @@ function ShowCart(props) {
 
     	//=============================  STRIPE PAYMENTS ====================
         const [item, setItem] = useState({
-            name: "Sample Name",
+            name: user.email,
             price: 10,
             description: 'This is sample description'
         })
@@ -69,37 +69,65 @@ function ShowCart(props) {
 
     const totalBill = calculateTotalPrice()
 
+    // //=============================  STRIPE PAYMENTS ====================
+    // const [item, setItem] = useState({
+    //     name: "Sample Name",
+    //     price: 10,
+    //     description: 'This is sample description'
+    // })
+    // //====================================================================
+
     //=============================  STRIPE PAYMENTS ====================
-    async function handleToken(token, addresses) {
-		const response = await axios.post('http://localhost:8000/checkout/', {token, item})
 
-		
-		// take response and check status
-		console.log(response.status)
+    
+        // setItem({name: user.email,
+        // price: totalBill,
+        // description: 'This is sample description'})
+    
 
-		if(response.status === 200) {
-			console.log('Toastttttttt')
-			
-			toast.success('Success Payment Completed')
-			return(
-			<Toast>
-				<Toast.Header>
-					{/* <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" /> */}
-					<strong className="me-auto">Bootstrap</strong>
-					<small>Payment Successful</small>
-				</Toast.Header>
-				<Toast.Body>Hello, world! This is a toast message.</Toast.Body>
-				</Toast>
-			)
-		} else {
-			toast('Failure payment is not completed', {type: 'failure'})
-		}
-	}
+
+
+        async function handleToken(token, addresses) {
+                const response = await axios.post('http://localhost:8000/checkout/', {token,
+                    item: {
+                    name: user.email,
+                    price: totalBill,
+                    description: 'This is sample description'
+                    }
+                })
+
+                
+                // take response and check status
+                console.log(response.status)
+
+                if(response.status === 200) {
+                    console.log('Toastttttttt')
+                    
+                    toast.success('Success Payment Completed')
+                    return(
+                    <Toast>
+                        <Toast.Header>
+                            {/* <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" /> */}
+                            <strong className="me-auto">Bootstrap</strong>
+                            <small>Payment Successful</small>
+                        </Toast.Header>
+                        <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+                        </Toast>
+                    )
+                } else {
+                    toast('Failure payment is not completed', {type: 'failure'})
+                }
+            }
+
+
+
+
+
+    
+    
     //====================================================================
 
-    // if (totalBill > 0){
-
-    // }
+   
 
   return (
     <div>
@@ -117,12 +145,12 @@ function ShowCart(props) {
 				className= 'center'
 				stripeKey="pk_test_51MjOxGGWn0da1VDTZPMDt4ab4vsAOBSNI9oNrXq7gwxVLCHtX0EX8NicbDcPtl2muAJjOJOhePjgVfCBJA1lW7DF00q3pxqjlN"
 				token={handleToken}
-				amount={item.price*100}
-				name={item.name}
+				amount={totalBill*100}
+				name={user.email}
 				billingAddress
 				shippingAddress
 				/>
-			</div>
+		    </div>
         
     
       
