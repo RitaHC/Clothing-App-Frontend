@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom'
 import LoadingScreen from '../shared/LoadingScreen'
 import { Col } from 'react-bootstrap'
 import Figure from 'react-bootstrap/Figure';
+import { useNavigate } from 'react-router-dom'
 
 // Imports for Stripe
 import StripeCheckout from "react-stripe-checkout"
@@ -19,6 +20,7 @@ function ShowCart(props) {
     console.log(`-- SHOW CART Props`, props)
     const [cart, setCart] = useState([])
     const { cartId } = useParams()
+    const nav = useNavigate()
 
     	//=============================  STRIPE PAYMENTS ====================
         const [item, setItem] = useState({
@@ -66,26 +68,10 @@ function ShowCart(props) {
         return total + product.price
         }, 0)
     }
-
+    // Total amount of Bill
     const totalBill = calculateTotalPrice()
 
-    // //=============================  STRIPE PAYMENTS ====================
-    // const [item, setItem] = useState({
-    //     name: "Sample Name",
-    //     price: 10,
-    //     description: 'This is sample description'
-    // })
-    // //====================================================================
-
     //=============================  STRIPE PAYMENTS ====================
-
-    
-        // setItem({name: user.email,
-        // price: totalBill,
-        // description: 'This is sample description'})
-    
-
-
 
         async function handleToken(token, addresses) {
                 const response = await axios.post('http://localhost:8000/checkout/', {token,
@@ -102,18 +88,7 @@ function ShowCart(props) {
 
                 if(response.status === 200) {
                     console.log('Toastttttttt')
-                    
-                    toast.success('Success Payment Completed')
-                    return(
-                    <Toast>
-                        <Toast.Header>
-                            {/* <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" /> */}
-                            <strong className="me-auto">Bootstrap</strong>
-                            <small>Payment Successful</small>
-                        </Toast.Header>
-                        <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
-                        </Toast>
-                    )
+                    nav('/receipt', {state: {cart: cart, totalBill: totalBill}} )
                 } else {
                     toast('Failure payment is not completed', {type: 'failure'})
                 }

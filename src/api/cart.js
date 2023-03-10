@@ -4,11 +4,6 @@ import axios from 'axios'
 
 
 //------------------ SHOW (one cart) ---------------
-// export const showCart = ( cart ,id) => {
-//     return axios({
-//         url: `${apiUrl}/cart/${id}`}
-        
-//     )}
 
 export const showCart = (cart, id) => {
     return axios({

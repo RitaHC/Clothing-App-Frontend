@@ -24,6 +24,9 @@ import Dashboard from './components/auth/Dashboard'
 import ShowCart from './components/Cart/ShowCart'
 import { showCart } from './api/cart'
 
+//////////////// Payment Receipt
+import PaymentReceipt from './components/Cart/PaymentReceipt'
+
 
 const App = () => {
 
@@ -97,7 +100,17 @@ const App = () => {
 							}
 						/>
 
-
+						<Route
+							path= '/receipt'
+							element={
+								<PaymentReceipt
+								msgAlert={msgAlert}
+								user={user}
+								item={item}
+								setItem={setItem}
+								/>
+							}
+						/>
 
 
   						<Route
