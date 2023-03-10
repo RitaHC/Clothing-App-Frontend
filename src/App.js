@@ -114,7 +114,7 @@ const App = () => {
 
 
 						<Route
-							path= '/cart/:cartId'
+							path= 'dashboard/cart/:userId'
 							element={
 								<ShowCart
 								msgAlert={msgAlert}

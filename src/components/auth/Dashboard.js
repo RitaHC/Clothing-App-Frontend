@@ -7,14 +7,15 @@ import ShowItem from '../Item/ShowItem';
 
 
 function Dashboard(props) {
-    const { cart } = props
-    console.log(`---- Dashboard (props) ---`, props)
+    const { user } = props
+    // console.log(`---- Dashboard (props) ---`, user)
 
 
   return (
     <div>
       Hello My User<br/><br/>
-      {/* <Link to={`cart/${cart._id}`}> View Cart </Link><br/><br/> */}
+      <Link to={`cart/${user._id}`}> View Cart </Link>
+      <br/><br/>
 
       {/* <Button>View Cart</Button><br/><br/><br/> */}
       <Button>Order History</Button><br/><br/><br/>

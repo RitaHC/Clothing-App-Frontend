@@ -37,7 +37,7 @@ function ItemIndex(props) {
      
         // Map over the array to display Items
 
-        const allItemsContainer = item.map(i => (
+        let allItemsContainer = item.map(i => (
             <>
                <Col key={i._id}  >
                 <Card style={{width: '18rem'}}>
