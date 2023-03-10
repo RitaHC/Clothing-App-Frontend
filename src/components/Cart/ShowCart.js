@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import LoadingScreen from '../shared/LoadingScreen'
 import { Col } from 'react-bootstrap'
+import Figure from 'react-bootstrap/Figure';
 
 
 function ShowCart(props) {
@@ -23,25 +24,50 @@ function ShowCart(props) {
 
     console.log(`---- NEW CART ---`, cart.products)
 
-    // Loading screen display untill the data is loaded
-    // if(!cart) {
-    //     return <LoadingScreen/>
-    // } else if(cart.products.length === 0) {
-    //     return <p> Your Cart is Empty, Have a look at our new collection!</p>
+   // Loading screen display until the data is loaded
+  if (cart.length === 0) {
+    return <LoadingScreen />
+  }
+
+     // Check if there are any products in the cart
+  if (cart.products.length === 0) {
+    return <p> Your Cart is Empty, Have a look at our new collection!</p>
+  }
+
+   // Map over the products in the cart and render each product
+   
+   const allProductsInCart = cart.products.map(product => (
+    <Col key={product._id}>
+            <Figure>
+            <Figure.Image width={350} height={180} alt='171x180' src={product.img} />
+            {product.price}
+          </Figure>
+      
+    </Col>
+  ))
+   
+    // Calculate the total price of products in the cart
+    const calculateTotalPrice = () => {
+        return cart.products.reduce((total, product) => {
+        return total + product.price
+        }, 0)
+    }
+
+    const totalBill = calculateTotalPrice()
+
+    // if (totalBill > 0){
+
     // }
-
-
-    // // Now Map Over the Array
-    // let allProductsInCart = cart.products.map(product => (
-    //     <Col>
-    //     {product.price}
-    //     </Col>
-    // ))
 
   return (
     <div>
       This is a User's Show Cart :  
         {cart.id}
+        Products:
+        {allProductsInCart}
+        Total Bill = {totalBill}
+        
+    
       
     </div>
   )
