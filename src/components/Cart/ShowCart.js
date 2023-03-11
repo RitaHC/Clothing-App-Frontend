@@ -140,9 +140,9 @@ cart.products.forEach(item => {
   if (title && !(title in itemNumber)) {
     itemNumber[title] = {count: 1, itemId};
   } else if (title) {
-    itemNumber[title].count++;
+    itemNumber[title].count++
   }
-});
+})
 
 // Displaying the name and no. of items in cart
 const repetitions = Object.entries(itemNumber).map(([title, {count, itemId}]) => (
@@ -153,7 +153,7 @@ const repetitions = Object.entries(itemNumber).map(([title, {count, itemId}]) =>
                         setButtonClick(true)
                     }}>Delete</Button>
   </p>
-));
+))
 
 
   
