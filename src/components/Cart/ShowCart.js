@@ -4,9 +4,11 @@ import { showCart } from '../../api/cart'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import LoadingScreen from '../shared/LoadingScreen'
-import { Col } from 'react-bootstrap'
+import { Col, Row, Button } from 'react-bootstrap'
 import Figure from 'react-bootstrap/Figure';
 import { useNavigate } from 'react-router-dom'
+import Container from 'react-bootstrap/Container';
+
 
 // Imports for Stripe
 import StripeCheckout from "react-stripe-checkout"
@@ -17,7 +19,7 @@ import { Toast } from 'react-bootstrap';
 
 function ShowCart(props) {
     const {user} = props
-    console.log(`-- SHOW CART Props`, props)
+    // console.log(`-- SHOW CART Props`, props)
     const [cart, setCart] = useState([])
     const { cartId } = useParams()
     const nav = useNavigate()
@@ -47,7 +49,7 @@ function ShowCart(props) {
     }, [])
 
 
-    console.log(`---- NEW CART ---`, cart.products)
+    // console.log(`---- NEW CART ---`, cart.products)
 
    // Loading screen display until the data is loaded
   if (cart.length === 0) {
@@ -73,16 +75,16 @@ function ShowCart(props) {
             } 
             
     }, {})
-        console.log(`Item number repetitions`, repetition)
+        // console.log(`Item number repetitions`, repetition)
 
 
+       
 //     const repetition = cart.products.reduce((acc, item) => {
 //         const img = item.img
 //             acc[img] ? acc[img] += 1 : acc[img] = 1
 //             if (img.length > 1){
 //                 return acc
 //             } 
-            
 //     }, {})
 //     console.log(`Item number repetitions`, repetition)
 
@@ -96,28 +98,35 @@ function ShowCart(props) {
 //             <Figure>
 //                 <Figure.Image width={350} height={180} alt='171x180' src={product.img} />
 //                 {product.price}
-//             </Figure>
-      
-//     </Col>
-    
+//             </Figure>     
+//     </Col>  
 //   )
 // }
 // )
-////////////////////// conditional rendering of img ///////////////////
+////////////////////// Calculating the items an item exist in the cart ///////////////////
 
 // adding an item only once in the itemNumber 
 const itemNumber = {};
 cart.products.forEach(item => {
-  const img = item.img;
-  if (img && !(img in itemNumber)) {
-    itemNumber[img] = 1;
-  } else if (img) {
-    itemNumber[img]++;
+  const title = item.title;
+  if (title && !(title in itemNumber)) {
+    itemNumber[title] = 1;
+  } else if (title) {
+    itemNumber[title]++;
   }
-});
+})
 
-console.log(`Item number repetitions`, itemNumber)
 
+// Displaying the name and no. of items in cart
+const repetitions = Object.entries(itemNumber).map(([title, count]) => (
+    <p key={title}>
+     * {title} : {count} 
+     <Button > Reduce </Button>
+    </p>
+  ));
+
+
+/////////////////////////////////// Conditional Rendering of img //////////
 const alreadyRendered = {};
 const allProductsInCart = cart.products.map(product => {
     // if it already exist
@@ -129,12 +138,15 @@ const allProductsInCart = cart.products.map(product => {
     <Col key={product._id}>
       <Figure>
         <Figure.Image width={350} height={180} alt='171x180' src={product.img} />
-        {product.price} <br/>
+        {product.price} 
         
       </Figure>
     </Col>
   );
 }).filter(Boolean);
+
+
+
 
 
   
@@ -148,7 +160,7 @@ const allProductsInCart = cart.products.map(product => {
     // Total amount of Bill
     const totalBill = calculateTotalPrice()
 
-    //=============================  STRIPE PAYMENTS ====================
+    //=============================  STRIPE PAYMENTS  API Call====================
 
         async function handleToken(token, addresses) {
                 const response = await axios.post('http://localhost:8000/checkout/', {token,
@@ -159,35 +171,33 @@ const allProductsInCart = cart.products.map(product => {
                     }
                 })
 
-                
-                // take response and check status
-                console.log(response.status)
-
                 if(response.status === 200) {
-                    console.log('Toastttttttt')
                     nav('/receipt', {state: {cart: cart, totalBill: totalBill}} )
                 } else {
                     toast('Failure payment is not completed', {type: 'failure'})
                 }
             }
-
-
-
-
-
-    
-    
     //====================================================================
 
    
 
   return (
     <div>
-      This is a User's Show Cart :  
-        {cart.id}
-        Products:
-        {allProductsInCart}
-        Total Bill = {totalBill}
+      
+    
+        
+        <h1>My Cart</h1>
+    <Container>
+      <Row>
+        <Col>
+            {allProductsInCart}
+        </Col>
+        <Col>
+            {repetitions}
+            Total Bill = {totalBill}
+        </Col>
+      </Row>
+      </Container>
 
 
         
