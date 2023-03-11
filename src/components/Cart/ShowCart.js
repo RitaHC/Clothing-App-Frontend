@@ -8,6 +8,7 @@ import { Col, Row, Button } from 'react-bootstrap'
 import Figure from 'react-bootstrap/Figure';
 import { useNavigate } from 'react-router-dom'
 import Container from 'react-bootstrap/Container';
+import { reduceItem } from '../../api/cart'
 
 
 // Imports for Stripe
@@ -23,6 +24,9 @@ function ShowCart(props) {
     const [cart, setCart] = useState([])
     const { cartId } = useParams()
     const nav = useNavigate()
+    const [newCart, setNewCart] = useState(null)
+    const [buttonClick, setButtonClick] = useState(false);
+
 
     //================== Count items Function =============
     // const fc = (val) => {
@@ -45,8 +49,10 @@ function ShowCart(props) {
     useEffect(() => {
         showCart(cart, user._id)
             .then(res=> setCart(res.data.cart))
+        setButtonClick(false);
+        
             
-    }, [])
+    }, [buttonClick])
 
 
     // console.log(`---- NEW CART ---`, cart.products)
@@ -106,25 +112,51 @@ function ShowCart(props) {
 ////////////////////// Calculating the items an item exist in the cart ///////////////////
 
 // adding an item only once in the itemNumber 
+// const itemNumber = {};
+// cart.products.forEach(item => {
+//   const title = item.title;
+//   const itemid = item._id
+//   if (title && !(title in itemNumber)) {
+//     itemNumber[title] = 1;
+//   } else if (title) {
+//     itemNumber[title]++;
+//   }
+// })
+
+
+// // Displaying the name and no. of items in cart
+// const repetitions = Object.entries(itemNumber).map(([title, count, itemid]) => (
+//     <p key={title}>
+//      * {title} : {count} 
+//      <Button onClick={()=> reduceItem( newCart, user._id, cart._id, id)}> Reduce </Button>
+     
+//     </p>
+//   ));
+
 const itemNumber = {};
 cart.products.forEach(item => {
   const title = item.title;
+  const itemId = item._id;
   if (title && !(title in itemNumber)) {
-    itemNumber[title] = 1;
+    itemNumber[title] = {count: 1, itemId};
   } else if (title) {
-    itemNumber[title]++;
+    itemNumber[title].count++;
   }
-})
-
+});
 
 // Displaying the name and no. of items in cart
-const repetitions = Object.entries(itemNumber).map(([title, count]) => (
-    <p key={title}>
-     * {title} : {count} 
-     <Button > Reduce </Button>
-    </p>
-  ));
+const repetitions = Object.entries(itemNumber).map(([title, {count, itemId}]) => (
+  <p key={title}>
+    * {title} : {count} 
+    <Button onClick={() => {
+                        reduceItem(newCart, user._id, cart._id, itemId)
+                        setButtonClick(true)
+                    }}>Delete</Button>
+  </p>
+));
 
+
+  
 
 /////////////////////////////////// Conditional Rendering of img //////////
 const alreadyRendered = {};
@@ -139,6 +171,7 @@ const allProductsInCart = cart.products.map(product => {
       <Figure>
         <Figure.Image width={350} height={180} alt='171x180' src={product.img} />
         {product.price} 
+
         
       </Figure>
     </Col>
