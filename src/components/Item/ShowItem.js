@@ -19,9 +19,10 @@ function ShowItem(props) {
   const [item, setItem] = useState([]);
   const [cart, setCart] = useState(null)
   const { itemId } = useParams();
-  const [buttonClick, setButtonClick] = useState(false)
+  const [triggerRefresh, setTriggerRefresh] = useState(false)
   const [newCart, setNewCart] = useState({})
   const [repetitions, setRepetitions] = useState([]);
+ 
 
 
 
@@ -49,65 +50,48 @@ function ShowItem(props) {
   // }, [itemId, buttonClick, user, cart]);
 
   useEffect(() => {
-    showItem(itemId).then((res) => setItem(res.data.item));
+    // Display Item/product 
+    showItem(itemId)
+      .then((res) => setItem(res.data.item))
+      .then(() => setTriggerRefresh(prev => !prev))
+
     if (user) {
-      showCart(cart, user._id).then((res) => {
-        setCart(res.data.cart);
-        const itemNumber = {};
-        res.data.cart.products.forEach((item) => {
-          const title = item.title;
-          const itemId = item._id;
-          if (title && !(title in itemNumber)) {
-            itemNumber[title] = { count: 1, itemId };
-          } else if (title) {
-            itemNumber[title].count++;
-          }
-        });
-        const newRepetitions = Object.entries(itemNumber).map(
-          ([title, { count, itemId }]) => (
-            <p key={title}>
-              * {title} : {count}{" "}
-            </p>
+      // Show user's Cart (currently active)
+      showCart(cart, user._id)
+        .then((res) => {
+          setCart(res.data.cart)
+          // calculate the no. of times an item appears in the cart in -> itemNumber
+          const itemNumber = {}
+          res.data.cart.products.forEach((item) => {
+            // The This forEach stores the reps of an id in the itemNumber object
+            const title = item.title
+            const itemId = item._id
+            if (title && !(title in itemNumber)) {
+              itemNumber[title] = { count: 1, itemId }
+            } else if (title) {
+              itemNumber[title].count++
+            }
+          })
+          // Now loop over the object to display the key: value storing data of the items inside cart
+          const newRepetitions = Object.entries(itemNumber).map(
+            ([title, { count, itemId }]) => (
+              <p key={title}>
+                * {title} : {count}{" "}
+              </p>
+            )
           )
-        );
-        setRepetitions(newRepetitions);
-      });
+          setRepetitions(newRepetitions)
+        })
+        .then(() => setTriggerRefresh(prev => !prev))
+      
     }
-  }, [itemId, buttonClick]);
+
+   
+  }, [cart]);
+
   
   console.log(`Show Page Cart`, cart)
 
-//   const addItems = () => {
-//     useEffect(() => {
-//         cartItemPush(cart, user.id, item.id)
-//             .then(res => console.log(`--- RES at SHow Page ---` ,res))
-//     }, [cart, user.id, item.id])
-//   }
-
-if (user && cart && cart.products.length > 0){
-
-// const repetition = cart.products.reduce((acc, item) => {
-//   const id = item._id
-//   const img = item.img
-//       acc[id] ? acc[id] += 1 : acc[id] = 1
-//       if (id.length > 1){
-//           return acc
-//       }
-// }, {})
-
-
-
-// const repetitions = Object.entries(itemNumber).map(([title, {count, itemId}]) => (
-//   <p key={title}>
-//     * {title} : {count} 
-//     <Button onClick={() => {
-//                         reduceItem(newCart, user._id, cart._id, itemId)
-//                         setButtonClick(true)
-//                     }}>Delete</Button>
-//   </p>
-// ))
-
-}
 
   return (
     <div>
@@ -156,13 +140,18 @@ if (user && cart && cart.products.length > 0){
         <Col>
             {user ? (
                 <>
-                    <Button onClick={() => cartItemPush(cart, user._id, item._id)}>
+                    <Button onClick={() => {
+                      cartItemPush(cart, user._id, item._id)
+                      .then(() => setTriggerRefresh(prev => !prev))
+                      
+                    }
+                  }>
                     Add To Cart
                     </Button>
 
                     <Button onClick={() => {
-                        reduceItem(newCart, user._id, cart._id, item._id)
-                        setButtonClick(true)
+                        reduceItem(cart, user._id, cart._id, item._id)
+                        .then(() => setTriggerRefresh(prev => !prev))
                     }}>Delete</Button>
 
                     
