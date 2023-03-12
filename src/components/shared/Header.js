@@ -9,6 +9,7 @@ import { showUser } from '../../api/auth'
 
 
 
+
 const linkStyle = {
     color: 'white',
     textDecoration: 'none'
@@ -68,6 +69,7 @@ const Header = ({ user }) => {
 
 
 return (
+	<>
 	
 	<Navbar bg='primary' variant='dark' expand='md'>
 		<Navbar.Brand>
@@ -104,6 +106,8 @@ return (
 
 		</Navbar.Collapse>
 	</Navbar>
+	
+	</>
 )}
 
 export default Header

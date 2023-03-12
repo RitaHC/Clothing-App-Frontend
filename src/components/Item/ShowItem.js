@@ -9,6 +9,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Sonnet from '../../components/Sonnet';
 import { cartItemPush, showCart, reduceItem } from '../../api/cart';
+import SearchBar from '../SearchBar';
 
 function ShowItem(props) {
 
@@ -95,6 +96,7 @@ function ShowItem(props) {
 
   return (
     <div>
+      <SearchBar/>
       <h1>Show Item Page</h1>
       {repetitions}
 

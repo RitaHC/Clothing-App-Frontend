@@ -6,7 +6,7 @@ import { allitems } from '../../api/item'
 import { Card, Container, Button, Col } from "react-bootstrap"
 import Row from 'react-bootstrap/Row'
 import { Link } from 'react-router-dom'
-
+import SearchBar from '../SearchBar'
 
 
 
@@ -39,6 +39,7 @@ function ItemIndex(props) {
 
         let allItemsContainer = item.map(i => (
             <>
+            
                <Col key={i._id}  >
                 <Card style={{width: '18rem'}}>
                     
@@ -74,6 +75,7 @@ function ItemIndex(props) {
 
   return (
     <div>
+      <SearchBar/>
       <h1>Items Index</h1>
       <Row>{allItemsContainer}</Row>
       
