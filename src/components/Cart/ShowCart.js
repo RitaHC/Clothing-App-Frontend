@@ -54,7 +54,7 @@ function ShowCart(props) {
             .then(res=> {
                 console.log(`--- TRIGGER REFRESH----`, buttonClick)
                 setCart(res.data.cart)})
-            // .then(() => setButtonClick(true)); // reset buttonClick to false when the API call is complete
+            .then(() => setButtonClick(true)); // reset buttonClick to false when the API call is complete
         
         
             
