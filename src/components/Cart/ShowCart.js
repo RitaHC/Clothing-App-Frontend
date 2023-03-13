@@ -54,7 +54,7 @@ function ShowCart(props) {
             .then(res=> {
                 console.log(`--- TRIGGER REFRESH----`, buttonClick)
                 setCart(res.data.cart)})
-            .then(() => setButtonClick(true)); // reset buttonClick to false when the API call is complete
+            .then(() => setButtonClick(false)); // reset buttonClick to false when the API call is complete
         
         
             
@@ -97,7 +97,7 @@ cart.products.forEach(item => {
     itemNumber[title].count++
   }
 })
-
+console.log(`Cart UPDATE`, cartUpdate)
 // Displaying the name and no. of items in cart
 const repetitions = Object.entries(itemNumber).map(([title, {count, itemId}]) => (
   <p key={title}>
@@ -106,8 +106,9 @@ const repetitions = Object.entries(itemNumber).map(([title, {count, itemId}]) =>
     <Button onClick={() => {
         reduceItem(newCart, user._id, cart._id, itemId)
         .then((res) => {
-        setCartUpdate(res.data.cart);
-        })
+        setCartUpdate(res.data.products)
+        }
+        )
         setButtonClick(prev=> !prev)}}>
         Delete
     </Button>
@@ -116,7 +117,7 @@ const repetitions = Object.entries(itemNumber).map(([title, {count, itemId}]) =>
     <Button onClick={() => {
         cartItemPush(cart, user._id, itemId)
             .then((res) => {
-            setCartUpdate(res.data.cart);
+            setCartUpdate(res.data.products);
         })
         setButtonClick(prev=> !prev)
         }}>
@@ -127,7 +128,7 @@ const repetitions = Object.entries(itemNumber).map(([title, {count, itemId}]) =>
     <Button onClick={() => {
         reduceOne(newCart, user._id, cart._id, itemId)
             .then((res) => {
-            setCartUpdate(res.data.cart);
+            setCartUpdate(res.data.products);
             })
         setButtonClick(prev=> !prev) }}>
         Reduce
