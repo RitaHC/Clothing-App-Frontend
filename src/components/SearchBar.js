@@ -1,90 +1,60 @@
-import algoliasearch from 'algoliasearch';
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Card, Input } from 'mdb-react-ui-kit';
-import { MDBInputGroup, MDBInput, MDBIcon, MDBBtn } from 'mdb-react-ui-kit';
 
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import { useState, useEffect } from 'react';
+import { allitems } from '../api/item';
+import Table from './Table';
 
 
 function SearchBar(props) {
 
-//     const [query, setQuery] = useState('');
-//   const [results, setResults] = useState([]);
-//   const [error, setError] = useState(null);
+  const [item, setItem] = useState([])
+  const [query, setQuery] = useState("")
 
-//   const client = algoliasearch('1W07DUIUXX', 'b606721ef54fc49176d4c60e6534e32d');
-//   const index = client.initIndex('ClothingApp');
+  // Call Items on the search 
+  useEffect(()=> {
+    // Making API CAll
+        allitems()
+            .then(res=> setItem(res.data.items))
 
+    }, [])
 
-//   const search = async (event) => {
-//     const { value } = event.target;
-//     setQuery(value);
+  console.log(`SEARCH ITEMS`, item)
+  console.log(`Query`, query)
+  // console.log(`filter`, item.filter(i => i.style.includes("Acc")))
 
-//     if (value.length > 0) {
-//       try {
-//         const response = await index.search(value);
-//         setResults(response.hits);
-//         setError(null);
-//       } catch (e) {
-//         console.error(e);
-//         setError(e.message);
-//       }
-//     } else {
-//       setResults([]);
-//       setError(null);
-//     }
-//   };
-//   return (
-//     <div>
+  const searchButton = {
+    marginTop: '-3px'
+  }
+  // Map over all the items and then make then display in the search bar
+  const displaySearch = item.filter(i => i.style.includes(query)).map(i => (
+    <li className="listItem">
+      <img src={i.img} alt="Search Images"/>
+    </li>
+  ))
 
-// <>
-// 	<h1>Home Page</h1>
-//     <div>
-//       <input type="text" placeholder="Search products..." onChange={search} />
-//       {error && <div>{error}</div>}
-//       {results.map((hit) => (
-//         <Link to={`/products/${hit.objectID}`} key={hit.objectID}>
-//         <div key={hit.objectID}>
-//           <h2>{hit.title}</h2>
-// 		  <img src={hit.img} alt="Product Image"/>
-//         </div>
-//         </Link>
-//       ))}
-//     </div>
-// 	</>
-      
-//     </div>
-//   )
-// }
+  
 
-
-const [showSearchAlert, setShowSearchAlert] = useState(false);
-
-const searchIconStyle = {
-  height: '20px',
-  width: '20px'
-}
+  const search = (data) => {
+    return data.filter(item => item.style.includes(query) || item.color.includes(query) || item.title.includes(query))
+  }
 
   return (
-  //   <MDBInputGroup>
-  //   <MDBInput label='Search' />
-  //   <MDBBtn rippleColor='dark'>
-  //     <MDBIcon icon='search' style={searchIconStyle}/>
-  //   </MDBBtn>
-  // </MDBInputGroup>
+    <>
 
-  <MDBInputGroup>
-  <MDBInput label='Search' />
-  <MDBBtn onClick={() => setShowSearchAlert(true)} rippleColor='dark'>
-    <MDBIcon icon='search' />
-  </MDBBtn>
-</MDBInputGroup>
+      <input id='searchBar' type="text"  className='search' onChange={e=> setQuery(e.target.value)}/>   
+      <div id="searchDiv" className={query ? '' : 'hidden'}>
+              <Table
+                data={search(item)}
+              />
+      </div>
+     
+    </>
   );
 }
 
-
 export default SearchBar
-
 
 
 // import React, { useState } from 'react';

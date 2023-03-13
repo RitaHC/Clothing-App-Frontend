@@ -75,7 +75,8 @@ function ItemIndex(props) {
 
   return (
     <div>
-      <SearchBar/>
+      <SearchBar
+      />
       <h1>Items Index</h1>
       <Row>{allItemsContainer}</Row>
       
