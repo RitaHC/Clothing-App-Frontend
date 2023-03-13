@@ -51,12 +51,14 @@ function ShowCart(props) {
     // Now Make Api Call to show cart
     useEffect(() => {
         showCart(cart, user._id)
-            .then(res=> setCart(res.data.cart))
-            .then(() => setButtonClick(true)); // reset buttonClick to false when the API call is complete
+            .then(res=> {
+                console.log(`--- TRIGGER REFRESH----`, buttonClick)
+                setCart(res.data.cart)})
+            // .then(() => setButtonClick(true)); // reset buttonClick to false when the API call is complete
         
         
             
-    }, [ buttonClick])
+    }, [buttonClick])
 
 
     // console.log(`---- NEW CART ---`, cart.products)
