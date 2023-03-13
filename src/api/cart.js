@@ -31,7 +31,7 @@ export const activeFalse = (cart, cartId) => {
   })
 }
 
-//------------------- Reduce an item from cart -------------------
+//------------------- Reduce all item from cart -------------------
 export const reduceItem = (cart, userId, cartId, itemId) => {
   return axios({
     url: `${apiUrl}/cart/${userId}/${cartId}/${itemId}`,
@@ -40,5 +40,14 @@ export const reduceItem = (cart, userId, cartId, itemId) => {
       quantity: - 1
     }
   })
+
 }
 
+//------------------- Reduce 1 item from cart -------------------
+export const reduceOne = (cart, userId, cartId, itemId) => {
+  return axios({
+    url: `${apiUrl}/cart/remove/${userId}/${cartId}/${itemId}`,
+    method: 'PATCH',
+    data: {cart: cart}
+  })
+}

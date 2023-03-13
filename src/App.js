@@ -31,6 +31,7 @@ import PaymentReceipt from './components/Cart/PaymentReceipt'
 const App = () => {
 
   const [user, setUser] = useState(null)
+  const [cart, setCart] = useState(null)
   const [msgAlerts, setMsgAlerts] = useState([])
   //////////////////////////
   const [item, setItem] = useState({
@@ -41,6 +42,8 @@ const App = () => {
 	title: '',
 	color: ''
   })
+
+  
 
 //   console.log('user in app', user)
 //   console.log('message alerts', msgAlerts)
@@ -62,6 +65,12 @@ const App = () => {
 				[{ heading, message, variant, id }]
       )
 		})
+	}
+
+	//////////////// Call CART if user exist ///////////////
+	if (user && !cart) {
+		showCart(cart, user._id)
+		 .then(res => setCart(res.data.cart))
 	}
 
 		return (
@@ -121,6 +130,9 @@ const App = () => {
 								user={user}
 								item={item}
 								setItem={setItem}
+								cart={cart}
+								setCart={setCart}
+								
 								/>
 							}
 						/>

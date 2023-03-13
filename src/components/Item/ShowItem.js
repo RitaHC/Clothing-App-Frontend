@@ -13,12 +13,12 @@ import SearchBar from '../SearchBar';
 
 function ShowItem(props) {
 
-  const { user } = props
+  const { user, cart } = props
 //   console.log('User ID:', user ? user._id : 'Not logged in');
   console.log(`Props Show Page`, props)
 
   const [item, setItem] = useState([]);
-  const [cart, setCart] = useState(null)
+  // const [cart, setCart] = useState(null)
   const { itemId } = useParams();
   const [triggerRefresh, setTriggerRefresh] = useState(false)
   const [newCart, setNewCart] = useState({})
@@ -50,45 +50,94 @@ function ShowItem(props) {
   //   }
   // }, [itemId, buttonClick, user, cart]);
 
-  useEffect(() => {
-    // Display Item/product 
-    showItem(itemId)
-      .then((res) => setItem(res.data.item))
-      .then(() => setTriggerRefresh(prev => !prev))
+  // useEffect(() => {
+  //   // Display Item/product 
+  //   showItem(itemId)
+  //     .then((res) => setItem(res.data.item))
+  //     // .then(() => setTriggerRefresh(prev => !prev))
 
-    if (user) {
-      // Show user's Cart (currently active)
-      showCart(cart, user._id)
-        .then((res) => {
-          setCart(res.data.cart)
-          // calculate the no. of times an item appears in the cart in -> itemNumber
-          const itemNumber = {}
-          res.data.cart.products.forEach((item) => {
-            // The This forEach stores the reps of an id in the itemNumber object
-            const title = item.title
-            const itemId = item._id
-            if (title && !(title in itemNumber)) {
-              itemNumber[title] = { count: 1, itemId }
-            } else if (title) {
-              itemNumber[title].count++
-            }
-          })
-          // Now loop over the object to display the key: value storing data of the items inside cart
-          const newRepetitions = Object.entries(itemNumber).map(
-            ([title, { count, itemId }]) => (
-              <p key={title}>
-                * {title} : {count}{" "}
-              </p>
-            )
-          )
-          setRepetitions(newRepetitions)
-        })
-        .then(() => setTriggerRefresh(prev => !prev))
+  //   if (user) {
+  //     // Show user's Cart (currently active)
+  //     showCart(cart, user._id)
+  //       .then((res) => {
+  //         setCart(res.data.cart)
+  //         // calculate the no. of times an item appears in the cart in -> itemNumber
+  //         const itemNumber = {}
+  //         res.data.cart.products.forEach((item) => {
+  //           // The This forEach stores the reps of an id in the itemNumber object
+  //           const title = item.title
+  //           const itemId = item._id
+  //           if (title && !(title in itemNumber)) {
+  //             itemNumber[title] = { count: 1, itemId }
+  //           } else if (title) {
+  //             itemNumber[title].count++
+  //           }
+  //         })
+  //         // Now loop over the object to display the key: value storing data of the items inside cart
+  //         const newRepetitions = Object.entries(itemNumber).map(
+  //           ([title, { count, itemId }]) => (
+  //             <p key={title}>
+  //               * {title} : {count}{" "}
+  //             </p>
+  //           )
+  //         )
+  //         setRepetitions(newRepetitions)
+  //       })
+  //       // .then(() => setTriggerRefresh(prev => !prev))
       
-    }
+  //   }
 
    
-  }, [cart]);
+  // }, [triggerRefresh]);
+
+  useEffect(() => {
+    ////////////////// Display Item/product //////////////// 
+    showItem(itemId)
+      .then((res) => setItem(res.data.item))
+
+    ////////////// Find Cart if user exist ////////////
+
+      // if (user){
+      //   showCart(cart, user._id)
+      //       .then((res) => setCart(res.data.cart))
+      // }
+
+   
+  }, [triggerRefresh]);
+
+  //  if (user){
+  //       showCart(cart, user._id)
+  //           .then((res) => setCart(res.data.cart))
+  //     }
+
+  
+
+ 
+
+    ////////// Calculating the number of times an item appears in cart
+    // if (user && cart){
+    //   const itemNumber = {}
+    
+    //   cart.products.forEach((item) => {
+    //       // The This forEach stores the reps of an id in the itemNumber object
+    //       const title = item.title
+    //       const itemId = item._id
+    //       if (title && !(title in itemNumber)) {
+    //           itemNumber[title] = { count: 1, itemId }
+    //         } else if (title) {
+    //           itemNumber[title].count++
+    //         }
+    //     })
+    //     ////////// Display Number
+    //     const newRepetitions = Object.entries(itemNumber).map(
+    //       ([title, { count, itemId }]) => (
+    //         <p key={title}>
+    //           * {title} : {count}{" "}
+    //         </p>
+    //       )
+    //     )
+    //     setRepetitions(newRepetitions)  
+    // }
 
   
   console.log(`Show Page Cart`, cart)
@@ -99,6 +148,7 @@ function ShowItem(props) {
       <SearchBar/>
       <h1>Show Item Page</h1>
       {repetitions}
+      
 
       <Row>
         <Col>

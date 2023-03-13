@@ -1,6 +1,6 @@
 import React from 'react'
 import ShowItem from '../Item/ShowItem'
-import { showCart } from '../../api/cart'
+import { showCart, cartItemPush } from '../../api/cart'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import LoadingScreen from '../shared/LoadingScreen'
@@ -8,7 +8,7 @@ import { Col, Row, Button } from 'react-bootstrap'
 import Figure from 'react-bootstrap/Figure';
 import { useNavigate } from 'react-router-dom'
 import Container from 'react-bootstrap/Container';
-import { reduceItem } from '../../api/cart'
+import { reduceItem, reduceOne } from '../../api/cart'
 
 
 // Imports for Stripe
@@ -18,6 +18,7 @@ import { ToastContainer, toast } from 'react-toast'
 import { Toast } from 'react-bootstrap';
 
 
+
 function ShowCart(props) {
     const {user} = props
     // console.log(`-- SHOW CART Props`, props)
@@ -25,6 +26,8 @@ function ShowCart(props) {
     const { cartId } = useParams()
     const nav = useNavigate()
     const [newCart, setNewCart] = useState(null)
+    const [cartUpdate, setCartUpdate] = useState(null)
+    const [cartPush, setCartPush] = useState(null)
     const [buttonClick, setButtonClick] = useState(false);
 
 
@@ -49,10 +52,11 @@ function ShowCart(props) {
     useEffect(() => {
         showCart(cart, user._id)
             .then(res=> setCart(res.data.cart))
-        setButtonClick(false);
+            .then(() => setButtonClick(true)); // reset buttonClick to false when the API call is complete
+        
         
             
-    }, [buttonClick])
+    }, [ buttonClick])
 
 
     // console.log(`---- NEW CART ---`, cart.products)
@@ -70,8 +74,6 @@ function ShowCart(props) {
    // Map over the products in the cart and render each product
 
 
-
-
     const repetition = cart.products.reduce((acc, item) => {
         const id = item._id
         const img = item.img
@@ -81,58 +83,8 @@ function ShowCart(props) {
             } 
             
     }, {})
-        // console.log(`Item number repetitions`, repetition)
 
-
-       
-//     const repetition = cart.products.reduce((acc, item) => {
-//         const img = item.img
-//             acc[img] ? acc[img] += 1 : acc[img] = 1
-//             if (img.length > 1){
-//                 return acc
-//             } 
-//     }, {})
-//     console.log(`Item number repetitions`, repetition)
-
-
-//    const allProductsInCart = cart.products.map(product => {
-//     if (product.img.length === 1){
-//         return null
-//     }
-//      return(
-//     <Col key={product._id}>
-//             <Figure>
-//                 <Figure.Image width={350} height={180} alt='171x180' src={product.img} />
-//                 {product.price}
-//             </Figure>     
-//     </Col>  
-//   )
-// }
-// )
-////////////////////// Calculating the items an item exist in the cart ///////////////////
-
-// adding an item only once in the itemNumber 
-// const itemNumber = {};
-// cart.products.forEach(item => {
-//   const title = item.title;
-//   const itemid = item._id
-//   if (title && !(title in itemNumber)) {
-//     itemNumber[title] = 1;
-//   } else if (title) {
-//     itemNumber[title]++;
-//   }
-// })
-
-
-// // Displaying the name and no. of items in cart
-// const repetitions = Object.entries(itemNumber).map(([title, count, itemid]) => (
-//     <p key={title}>
-//      * {title} : {count} 
-//      <Button onClick={()=> reduceItem( newCart, user._id, cart._id, id)}> Reduce </Button>
-     
-//     </p>
-//   ));
-
+// Calculate the no. of times an item appears in the cart.products array
 const itemNumber = {};
 cart.products.forEach(item => {
   const title = item.title;
@@ -148,10 +100,36 @@ cart.products.forEach(item => {
 const repetitions = Object.entries(itemNumber).map(([title, {count, itemId}]) => (
   <p key={title}>
     * {title} : {count} 
+
     <Button onClick={() => {
-                        reduceItem(newCart, user._id, cart._id, itemId)
-                        setButtonClick(true)
-                    }}>Delete</Button>
+        reduceItem(newCart, user._id, cart._id, itemId)
+        .then((res) => {
+        setCartUpdate(res.data.cart);
+        })
+        setButtonClick(prev=> !prev)}}>
+        Delete
+    </Button>
+
+                   
+    <Button onClick={() => {
+        cartItemPush(cart, user._id, itemId)
+            .then((res) => {
+            setCartUpdate(res.data.cart);
+        })
+        setButtonClick(prev=> !prev)
+        }}>
+        Add To Cart
+    </Button>
+
+                  
+    <Button onClick={() => {
+        reduceOne(newCart, user._id, cart._id, itemId)
+            .then((res) => {
+            setCartUpdate(res.data.cart);
+            })
+        setButtonClick(prev=> !prev) }}>
+        Reduce
+    </Button>
   </p>
 ))
 
@@ -246,6 +224,9 @@ const allProductsInCart = cart.products.map(product => {
 				shippingAddress
 				/>
 		    </div>
+            
+    
+            
         
     
       
