@@ -5,7 +5,9 @@ import Navbar from 'react-bootstrap/Navbar'
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { showUser } from '../../api/auth'
-
+import Home from '../Home'
+import { useNavigate } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 
 
 
@@ -14,43 +16,47 @@ const linkStyle = {
     color: 'white',
     textDecoration: 'none'
 }
+const navBarHeight = {
+	
+	maxHeight: '70px',
+	maxWidth: '100%'
+}
 const authenticatedOptions = (
 	<>
-		<Nav.Item>
+		
 			<Link to='change-password' style={linkStyle}>
 				Change Password
 			</Link>
-		</Nav.Item>
-		<Nav.Item>
+		
 			<Link to='sign-out' style={linkStyle}>
 				Sign Out
 			</Link>
-		</Nav.Item>
+		
 	</>
 )
 
 const unauthenticatedOptions = (
 	<>
-        <Nav.Item>
-		    <Link to='sign-up' style={linkStyle}>Sign Up</Link>
-        </Nav.Item>
-        <Nav.Item>
-		    <Link to='sign-in' style={linkStyle}>Sign In</Link>
-        </Nav.Item>
+        
+		    <Link to='sign-up' className='navbar-text mr-2' style={linkStyle}>Sign Up</Link>
+		
+        
+		    <Link to='sign-in' className='navbar-text mr-2' style={linkStyle}>Sign In</Link>
+        
 	</>
 )
 
 const alwaysOptions = (
 	<>
-		<Nav.Link>
-			<Link to='/' style={linkStyle}>
+		
+			{/* <Link id='brandName' className='navbar-text mr-2' to='/' style={linkStyle}>
 				Home
-			</Link>
-			<br/>
-			<Link to='/products' style={linkStyle}>
+			</Link> */}
+			
+			<Link className='navbar-text mr-2' to='/products' style={linkStyle}>
 				Products
 			</Link>
-		</Nav.Link>
+		
 	</>
 )
 
@@ -70,12 +76,33 @@ const Header = ({ user }) => {
 
 return (
 	<>
+	{!user ? (
+	<div>
+		<Link to='/sign-up'>Signup</Link>/ <Link to='/sign-in'>Login</Link> to add to cart <Link to='sign-up' className='navbar-text mr-2' style={linkStyle}>Sign Up</Link>
+		
+        
+		
+	</div>) :
+	null
+	}
 	
-	<Navbar bg='primary' variant='dark' expand='md'>
+	<Navbar  bg='dark' variant='light' expand='md'>
 		<Navbar.Brand>
-            <Link to='/' style={linkStyle}>
-                react-auth-template
-            </Link>
+		<Link id='brandName' className='navbar-text mr-2' to='/' style={linkStyle}>
+				FashionHolic
+		</Link>
+           
+
+			{/* <Link to={`/dashboard/`} style={linkStyle}>
+				{user && (
+						<span className='navbar-text mr-2'>Hello {user.email}</span>
+					)}
+					
+					{alwaysOptions}
+					{user ? authenticatedOptions : unauthenticatedOptions}
+                
+            </Link> */}
+
         </Navbar.Brand>
 		<Navbar.Toggle aria-controls='basic-navbar-nav' />
 		<Navbar.Collapse id='basic-navbar-nav'>

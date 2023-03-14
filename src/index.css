@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Playball&display=swap');
+
+#brandName{
+  font-family: 'Playball', cursive;
+  font-size: 40px;
+  color: black;
+}
 
 
 #searchBar{
