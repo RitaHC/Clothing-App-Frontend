@@ -24,11 +24,11 @@ const navBarHeight = {
 const authenticatedOptions = (
 	<>
 		
-			<Link to='change-password' style={linkStyle}>
+			<Link to='change-password' className='navbar-text mr-4' style={linkStyle}>
 				Change Password
 			</Link>
 		
-			<Link to='sign-out' style={linkStyle}>
+			<Link to='sign-out' className='navbar-text mr-5' style={linkStyle}>
 				Sign Out
 			</Link>
 		
@@ -38,10 +38,10 @@ const authenticatedOptions = (
 const unauthenticatedOptions = (
 	<>
         
-		    <Link to='sign-up' className='navbar-text mr-2' style={linkStyle}>Sign Up</Link>
+		    <Link to='sign-up' className='navbar-text mr-4' style={linkStyle}>Sign Up</Link>
 		
         
-		    <Link to='sign-in' className='navbar-text mr-2' style={linkStyle}>Sign In</Link>
+		    <Link to='sign-in' className='navbar-text mr-4' style={linkStyle}>Sign In</Link>
         
 	</>
 )
@@ -53,7 +53,7 @@ const alwaysOptions = (
 				Home
 			</Link> */}
 			
-			<Link className='navbar-text mr-2' to='/products' style={linkStyle}>
+			<Link className='navbar-text mr-4' to='/products' style={linkStyle}>
 				Products
 			</Link>
 		
@@ -77,18 +77,15 @@ const Header = ({ user }) => {
 return (
 	<>
 	{!user ? (
-	<div>
+	<div style={{textAlign: 'center'}}>
 		<Link to='/sign-up'>Signup</Link>/ <Link to='/sign-in'>Login</Link> to add to cart <Link to='sign-up' className='navbar-text mr-2' style={linkStyle}>Sign Up</Link>
-		
-        
-		
 	</div>) :
 	null
 	}
 	
 	<Navbar  bg='dark' variant='light' expand='md'>
 		<Navbar.Brand>
-		<Link id='brandName' className='navbar-text mr-2' to='/' style={linkStyle}>
+		<Link id='brandName' className='navbar-text mr-4' to='/' style={linkStyle}>
 				FashionHolic
 		</Link>
            
@@ -116,19 +113,23 @@ return (
 				
 			</Nav> */}
 
-			<Navbar.Brand>
-			<Link to={`/dashboard/`} style={linkStyle}>
-				{user && (
-						<span className='navbar-text mr-2'>Hello {user.email}</span>
-					)}
+			<Nav>
+			<Link to={`/dashboard/`} style={linkStyle}  className="justify-content-end">
+				{/* {user && (
+						<span className="justify-content-end"> {user.email}</span>
+					)} */}
 					
 					{alwaysOptions}
 					{user ? authenticatedOptions : unauthenticatedOptions}
+
+					{user && (
+						<Link to={`/dashboard/`} className="justify-content-end text-warning"> {user.email}</Link>
+					)}
                 
             </Link>
 
 
-        </Navbar.Brand>
+        </Nav>
 
 
 		</Navbar.Collapse>

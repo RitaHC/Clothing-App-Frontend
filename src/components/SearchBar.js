@@ -7,6 +7,7 @@ import { allitems } from '../api/item';
 import Table from './Table';
 
 
+
 function SearchBar(props) {
 
   const [item, setItem] = useState([])
@@ -43,7 +44,12 @@ function SearchBar(props) {
   return (
     <>
 
-      <input id='searchBar' placeholder='Search Latest Fashion...' type="text"  className='search' onChange={e=> setQuery(e.target.value)}/>   
+      <InputGroup id='searchBar'>
+        <Form.Control placeholder='Search by Style, Corlor or name...' type="text"  className='search' onChange={e=> setQuery(e.target.value)} aria-label="Dollar amount (with dot and two decimal places)" />
+        <InputGroup.Text> <img id="searchImg" src="https://cdn-icons-png.flaticon.com/128/2089/2089805.png" alt="Search Icon"/> </InputGroup.Text>
+        
+      </InputGroup>
+      {/* <input placeholder='Search Latest Fashion...' type="text"  className='search' onChange={e=> setQuery(e.target.value)}/>    */}
       <div id="searchDiv" className={query ? '' : 'hidden'}>
               <Table
                 data={search(item)}
