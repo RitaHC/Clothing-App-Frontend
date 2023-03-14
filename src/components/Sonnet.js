@@ -7,6 +7,7 @@ function Sonnet(props) {
       <h2>{props.title}</h2>
       <p>{props.text}</p>
       
+      
     </div>
   );
 }

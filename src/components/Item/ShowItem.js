@@ -161,8 +161,10 @@ function ShowItem(props) {
           <Tabs defaultActiveKey='home' id='fill-tab-example' className='mb-3' fill>
             <Tab eventKey='home' title='Info'>
               <Sonnet
-                title='Info'
-                text={item.title}
+                title={item.title}
+                text={item.size}
+                
+                
               />
             </Tab>
             <Tab eventKey='profile' title='Color'>
@@ -185,7 +187,7 @@ function ShowItem(props) {
       <Row>
         <Col>
           <Figure>
-            <Figure.Image width={450} height={180} alt='171x180' src={item.img} />
+            <Figure.Image width={450} height={180} alt='171x180' src={item.img1} />
           </Figure>
         </Col>
 
@@ -222,7 +224,7 @@ function ShowItem(props) {
       <Row>
         <Col>
           <Figure>
-            <Figure.Image width={450} height={180} alt='171x180' src={item.img} />
+            <Figure.Image width={450} height={180} alt='171x180' src={item.img2} />
           </Figure>
         </Col>
 

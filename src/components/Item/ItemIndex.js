@@ -51,7 +51,7 @@ function ItemIndex(props) {
                       </Link>
                     
                     <Row>
-                    <Col><Button>View</Button></Col>
+                    {/* <Col><Button>View</Button></Col> */}
                     <Col>Price: ${i.price}</Col>
                     
                     </Row>
