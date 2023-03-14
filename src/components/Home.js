@@ -4,6 +4,8 @@ import algoliasearch from 'algoliasearch';
 import React, { useState } from 'react';
 import SearchBar from './SearchBar';
 import Carousel from 'react-bootstrap/Carousel';
+import ReactPlayer from 'react-player'
+
 import {
 	MDBCarousel,
 	MDBCarouselItem,
@@ -12,14 +14,30 @@ import {
   import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdb-react-ui-kit';
 
 const Home = (props) => {
+	const videoStyle ={
+		width: '100vw'
+	}
  
 
   return (
 	<>
 	<SearchBar/>
+	<div>
+      <Carousel>
+        <div>
+	<ReactPlayer style={videoStyle} 
+	url='https://www.youtube.com/watch?v=8dvgueNbBd8'
+	volume='0.3'
+	muted
+    width='100%'
+    playing={true}
+	/>
+	</div>
+	</Carousel>
+	</div>
 
 
-<div
+{/* <div
   id="carouselVideoExample"
   className="carousel slide carousel-fade"
   data-mdb-ride="carousel"
@@ -111,7 +129,7 @@ const Home = (props) => {
     <span className="carousel-control-next-icon" aria-hidden="true"></span>
     <span className="visually-hidden">Next</span>
   </button>
-</div>
+</div> */}
 
 
 

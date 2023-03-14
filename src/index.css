@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playball&display=swap');
 
+
 #brandName{
   font-family: 'Playball', cursive;
   font-size: 40px;
@@ -7,13 +8,13 @@
 }
 
 
-#searchBar{
+/* #searchBar{
   display: flex;
   border-radius: 200%;
   height: 50px;
   width: 50px;
-  background-image: url("https://cdn-icons-png.flaticon.com/128/3128/3128287.png");
-  background-size: 40px 50px;
+  background-image: url("https://cdn-icons-png.flaticon.com/128/2089/2089805.png");
+  background-size: 55px 50px;
   background-repeat: no-repeat;
   border: none;
 }
@@ -24,6 +25,10 @@
   background-image: none;
   border: 2px solid black;
   place-content: "Search...";
+} */
+
+#searchBar{
+  width: 100vw;
 }
 .hidden {
   display: none;

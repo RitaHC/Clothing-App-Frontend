@@ -10,9 +10,9 @@ function Table({data, props}) {
     <div id="table">
         <table>
             <tr>
-                <th><h2 className="pr-5">Style</h2></th>
-                <th><h2 className="pr-5">Color</h2></th>
-                <th><h2 className="pr-5">Title</h2></th>
+                <th>Style</th>
+                <th className="ml-0">Color</th>
+                <th className="ml-0">Title</th>
             </tr>
             {data.map(item=> (
                 <tr key={item._id}>

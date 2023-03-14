@@ -43,7 +43,7 @@ function SearchBar(props) {
   return (
     <>
 
-      <input id='searchBar' type="text"  className='search' onChange={e=> setQuery(e.target.value)}/>   
+      <input id='searchBar' placeholder='Search Latest Fashion...' type="text"  className='search' onChange={e=> setQuery(e.target.value)}/>   
       <div id="searchDiv" className={query ? '' : 'hidden'}>
               <Table
                 data={search(item)}
