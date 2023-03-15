@@ -1,236 +1,202 @@
-[![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
 
-# react-auth-boilerplate
+# ShopoHolic - Fashion Clothing App
 
-A front-end framework template for starting projects with a recent version of
-either the [Django API Boilerplate](https://github.com/WDI-SEA/django-auth-boilerplate)
-or the [Express API Template](https://git.generalassemb.ly/sei-ec-remote/mongoose-express-auth-API-boilerplate).
 
-## Installation
 
-1. [Download](../../archive/main.zip) this template.
-1. Unzip and rename the template directory (`unzip ~/Downloads/react-auth-template-main.zip`).
-1. Move into the new project and `git init`.
-1. Change [`README.md`](README.md) to `REF.md` and add your planning `README.md` with your wireframes and user stories.
-1. Replace `react-auth-template` in `package.json` with your
-   project's name.
-1. Replace the `"homepage"` field in `package.json` with your (public) Github
-   account name and repository name.
-1. Install dependencies with `npm install`.
-1. `git add` and `git commit` your changes.
-1. Run the development server with `npm start`.
+## User Story
+ We are a women's  clothing line which aims to provide clothing and accessories for women. Our users can view our products, add, reduce and delete items from the cart and place an order with us (Stripe Payment Gateway), upon payment they can download their payment receipt. Additionally, they can also view the earlier orders placed.
 
-## Deployment
+ We provide our company details and website info at our home page to create reliability.
 
-Before deploying, you first need to make sure the `homepage` key in your
-`package.json` is pointing to the correct value. It should be the url of your
-deployed application.
+ Our users need to sign in to add items to add items to the cart, they can then select sizes and add the item to the cart. We tend to provide a downloading option for deownloading their payment receipt. Past orders can also be accessed by the users in their order history.
 
-To deploy you should first make sure you are on the `main` branch with a
-clean working directory.
+ Functionality:
 
-Refer to react deployment documentation for more info.
+ - User
+    -`Signup`, `Login`, `Logout`
+    - `Search Functionality` by `style` or `color`
 
-## About
+ - Place Order
+    - `Select size`
+    - `Add to Cart`, `Reduce Item from Cart`, `Delete Item form Cart` & `order total`
+    - `Make payment`
+	- `Stripe Payment Gateway`
+    - `View Order History`
+   
 
-This template is derived from `create-react-app` and has minimal additional dependencies. The main additions are:
-```json
-"axios": "^0.24.0",
-"react-bootstrap": "^2.0.3",
-"react-router-dom": "^6.0.2",
-"sass": "^1.44.0",
+ - Payment Gateway
+	- `Stripe API`
+	- `Download E-receipt`
+		- `jspdf`, `html2canvas`
+
+ - Footer Links
+    - `Contact Details`, `Links`
+
+ - Bonus
+    - `ChatBot - Upcoming`
+
+	
+
+# Technologies Used
+
+1. Java Script
+2. Express.js
+3. Node.js
+4. Npm and its packages
+    - `bcrypt`
+    - `Stripe`
+    - `html2canvas`
+    - `jspdf`
+    - `ReactPlayer`
+    - `Cors`
+	- `Kommunicate.io`
+5. React.js
+6. Stripe API (Payment Gateway) 
+7. HTML/ CSS
+
+
+# Wireframes
+
+1. Home Page
+![wireframe](images/HomeScreen.png)
+
+2. Products Page
+![wireframe](images/ProductsPage.png)
+![wireframe](images/ProductsPage2.png)
+
+3. User Cart 
+![wireframe](images/Cart.png)
+![wireframe](images/Cart2.png)
+
+4. Payment Gateway
+![wireframe](images/StripePayment.png)
+
+5. Payment Receipt
+![wireframe](images/PaymentReceipt.png)
+
+6. Order History
+![wireframe](images/OrderHistory.png)
+
+# Entity Relationship Diagram
+
+![Entity Relationship Diagram](erd.png)
+
+# Routes
+
+#### Users
+
+| **URL**          | **HTTP Verb**|**Action**|
+|------------------|--------------|----------|
+| /users/signup    | GET         | new  
+| /users/signup    | POST         | create  
+| /users/login     | GET         | login       
+| /users/login     | POST         | create       
+| /users/logout    | DELETE       | destroy   
+
+#### Menu
+
+| **URL**            | **HTTP Verb**|**Action**|
+|--------------------|--------------|----------|
+| /menu              | GET          | index    |
+| /menu/aboutus      | GET          | show     |
+
+
+#### CART
+
+| **URL**                               | **HTTP Verb**|**Action**                              |
+|---------------------------------------|--------------|----------------------------------------|
+| /cart/                                | GET          | All Cart Index
+| /show/:cartId                         | GET          | Current Cart in use    
+| /cart/:menuId                         | GET / POST   | Push items - in existing or Create Cart  
+| /cart/:userid                         | GET          | Show Active Cart
+| /cart/:userId/:itemId                 | POST         | Create / Push Item
+| /cart/remove/:userId/:cartId/:itemId  | PATCH        | Remove 1 item  
+| /cart/:userId/:cartId/:itemId         | PATCH        | Remove all Items having same Id from Cart
+
+# Models
+1. User
+```.js
+const UserSchema = new Schema(
+	{
+		username: { 
+			type: String, 
+			required: true, 
+			unique: true 
+		},
+		password: { 
+			type: String, 
+			required: true 
+		},
+		email: {
+			type: String, 
+			required: true 
+		}
+	},
+	{ timestamps: true }
+)
 ```
 
-It includes all the components and routes needed to sign up, sign in, change
-passwords, and sign out of an API built with either template linked above, with
-no need for modification.
+2. Item
 
-**NOTE**: You should customize the included components to suit you app! They're
-provided as a guide and a bare minimum of functionality and style. Consider
-changing the provided CSS styles, modifying the auth code, improving the flash
-messages, etc.
+```.js
+const itemSchema = new Schema(
+	{
+		style: { 
+			type: String, 
+			required: true 
+		},
+		size: [
+            String
+        ],
+		img:{
+        	type: String
+    	},
+        price: {
+			 type: Number,
+			required: true 
+		},
+		title: { 
+			type: String, 
+			required: true 
+		},
+        color: { 
+			type: String, 
+			required: true 
+		},
+		
+	},
+	{ timestamps: true }
+)
 
-## Structure
+```
 
-The top-level `App` function component stores the currently authenticated
-user in state, as well as data related to the flash messages, via hooks. `App` renders the
-`Header` component, and a list of routes, each of which render a component from
-`src/components`. The `src/api` directory has a component file, `auth.js`, which
-contains all the needed `axios` calls pertaining to authentication.
 
-It is recommended that you follow this pattern in your app as well. For instance, if you are making
-an app that keeps track of books, you might want a `src/api/books.js`, which
-contains its own `axios` call pertaining to your books resource CRUD actions.
-Using a separate directory within `components` for each individual component you
-add makes it easy to locate and update components and has the added benefit of
-making it easy to create custom styles that apply to that specific component.
-To apply component specific styles, add a file to the component's directory such
-as `ComponentName.scss` and then import it directly into the component with
-`import './ComponentName.scss'`.  This will keep your styles modularized and
-make it easier to make changes at the component level.
+3. Cart
 
-### Included Routes
+```.js
 
-This template comes with a handful of front-end routes that display
-different components for user actions.
 
-| Endpoint         | Component | `AuthenticatedRoute`? |
-|------------------|-------------------|-------|
-| `/sign-up`       | `SignUp`    | No |
-| `/sign-in`       | `SignIn`    | No |
-| `/change-password` | `ChangePassword`  | Yes |
-| `/sign-out`        | `SignOut`   | Yes |
+const cartSchema = new Schema ({
 
-There is no HTTP verb listed because these are all front-end routes handled by
-React. Some of these routes should not be available unless a user is signed in,
-so they will use the `AuthenticatedRoute` component instead of the regular
-`Route`. This custom component is provided as part of the template, and is not
-a part of the React library (see more below).
-
-## Features
-
-### `<RequireAuth />`
-
-This template contains a handy component for creating routes that require a
-user to be authenticated before visiting. This component lives in
-`src/auth/components/shared/RequireAuth.js` and is already required in `App`.
-
-It was built with the latest version of React Router(v6) in mind.
-It's a thin wrapper for a component in the element prop of React Router's `<Route/>` component. The only
-difference is that it expects a prop called `user`, and if that prop is falsy,
-it will render a `<Redirect />` that takes the user to `/sign-in`. **To use
-it, you must pass it the user as a prop!**
-
-It supports both the `component=` and `render=` attributes, but like `<Route />`
-it will not forward props to the component passed as a child, the `user` prop, for instance, must be passed manually to the children. See the `/change-password` route as an example here:
-
-```js
-<Route
-    path='/change-password'
-    element={
-        <RequireAuth user={user}>
-            <ChangePassword msgAlert={msgAlert} user={user} />
-        </RequireAuth>
+    products:[
+        {type: Schema.Types.ObjectId,
+        ref: 'Item'} 
+    ],
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    active: {
+        type: Boolean,
+        default: true
     }
-/>
-```
-
-### `<AutoDismissAlert />` Component
-
-This template also already contains a component that displays user messages.
-Messages are configurable via redux actions.  This component can be found in
-`src/components/shared/AutoDismissAlert/AutoDismissAlert.js`. **There is no need to add
-this component to your app. It is already required in `App`.**  A single
-component instance is used to manage all alerts application-wide.
-
-The alert can be used by passing the `alertMsg` method to a rendered route.  The
-`alertMsg` method expects an object with a `heading`, `message`, and a `variant` property.
-
-Use this component in conjunction with the `messages.js` file in the same
-directory to create and manage all of your application messages in one place.
-
-The `variant` property must be a Bootstrap alert variant, as this component is merely a
-wrapper around the [react-bootstrap Alert
-component](https://react-bootstrap.github.io/components/alerts/).  The types it
-will accept are: 'primary', 'secondary', 'success', 'danger', 'warning', 'info',
-'light', and 'dark'.
-
- To change the duration of the message, replace `5000` with a value of your
- choice (in milliseconds) in this component's `componentDidMount` method.
-
- The AutoDismissAlert is called by calling the `msgAlert()` as seen here in the SignUp Component, on the second `.then()` and the `.catch()`:
-
- ```js
-signIn(credentials)
-    .then((res) => setUser(res.data.user))
-    .then(() =>
-        msgAlert({
-            heading: 'Sign In Success',
-            message: messages.signInSuccess,
-            variant: 'success',
-        })
-    )
-    .then(() => navigate('/'))
-    .catch((error) => {
-        setEmail('')
-        setPassword('')
-        msgAlert({
-            heading: 'Sign In Failed with error: ' + error.message,
-            message: messages.signInFailure,
-            variant: 'danger',
-        })
-    })
- ```
-
-### `src/apiConfig.js`
-
-This file will determine whether you're in a production or development
-environment and choose an API URL accordingly. Don't forget to replace the
-`production` URL with your deployed API's URL.
-
-### Bootstrap
-
-This template includes two different implementations of the classic Bootstrap
-library we know and love.
-
-#### `bootstrap`
-
-The first implementation of Bootstrap comes from the `bootstrap` npm package,
-and provides all of the normal Bootstrap classes and styling we were able to
-use with the liquid template. This package is included in the
-`src/index.js` file at the very top of the file. That means JSX in this
-template can utilize Bootstrap classes like `btn`, `container`, `row`, etc.
-
-See an example below:
-
-```jsx
-import React from 'react'
-
-const AboutPage = () => (
-  <div className="card">
-    <div className="card-body">
-      <h1 className="card-title">About Page</h1>
-      <p className="card-text">There is a Bootstrap card on this page!</p>
-    </div>
-  </div>
+    
+},{
+    timestamps: true,
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true }
+}
 )
 
-export default AboutPage
 ```
-
-> Note: Remember to use `className` not `class` in your JSX!
-
-#### `react-bootstrap`
-
-In addition to the classic Bootstrap classes we can plug into our JSX, this
-template also comes with a special package called [`react-bootstrap`](https://react-bootstrap.github.io/).
-This package allows us to use special React components that have been pre-built
-according to the Bootstrap library.
-
-Import components from the `react-bootstrap` library, then use them just like
-regular components in your JSX!
-
-See an example below:
-
-```jsx
-import React from 'react'
-import Card from 'react-bootstrap/Card'
-
-const AboutPage = () => (
-  <Card>
-    <Card.Body>
-      <Card.Title>The About Page</Card.Title>
-      <Card.Text>There is a Bootstrap card on this page!</Card.Text>
-    </Card.Body>
-  </Card>
-)
-
-export default AboutPage
-```
-
-
-## [License](LICENSE)
-
-1. All content is licensed under a CC­BY­NC­SA 4.0 license.
-1. All software code is licensed under GNU GPLv3. For commercial use or
-    alternative licensing, please contact legal@ga.co.
