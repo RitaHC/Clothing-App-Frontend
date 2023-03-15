@@ -190,7 +190,7 @@ function ShowItem(props) {
         <Col>
             {user ? (
                 <>
-                    <Button onClick={() => {
+                    <Button variant='dark' onClick={() => {
                       cartItemPush(cart, user._id, item._id)
                       .then(() => {
                         setTriggerRefresh(prev => !prev)
@@ -202,9 +202,11 @@ function ShowItem(props) {
                     Add To Cart
                     </Button>
 
-                    <Button onClick={() => {
+                    <Button variant='danger' onClick={() => {
                         reduceItem(cart, user._id, cart._id, item._id)
-                        .then(() => setTriggerRefresh(prev => !prev))
+                        .then(() => {
+                          setTriggerRefresh(prev => !prev)
+                        })
                     }}>Delete</Button> 
                 </>
             ) : (
