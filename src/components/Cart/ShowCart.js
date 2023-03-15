@@ -9,13 +9,15 @@ import Figure from 'react-bootstrap/Figure';
 import { useNavigate } from 'react-router-dom'
 import Container from 'react-bootstrap/Container';
 import { reduceItem, reduceOne } from '../../api/cart'
+import Table from 'react-bootstrap/Table';
+import { Link } from 'react-router-dom'
+import Toast from 'react-bootstrap/Toast';
 
 
 // Imports for Stripe
 import StripeCheckout from "react-stripe-checkout"
 import axios from "axios"
-import { ToastContainer, toast } from 'react-toast'
-import { Toast } from 'react-bootstrap';
+
 
 
 
@@ -70,7 +72,8 @@ function ShowCart(props) {
 
      // Check if there are any products in the cart
   if (cart.products.length === 0) {
-    return <p> Your Cart is Empty, Have a look at our new collection!</p>
+    return <h1 id="emptyCart"> Your Cart is Empty, Have a look at our <Link to="/products">new collection!</Link>
+           </h1>
   }
 
    // Map over the products in the cart and render each product
@@ -100,21 +103,14 @@ cart.products.forEach(item => {
 console.log(`Cart UPDATE`, cartUpdate)
 // Displaying the name and no. of items in cart
 const repetitions = Object.entries(itemNumber).map(([title, {count, itemId}]) => (
+  <>
   <p key={title}>
-    * {title} : {count} 
+    * {title} : {'Quantity: ' + count} </p>
 
-    <Button onClick={() => {
-        reduceItem(newCart, user._id, cart._id, itemId)
-        .then((res) => {
-        setCartUpdate(res.data.products)
-        }
-        )
-        setButtonClick(prev=> !prev)}}>
-        Delete
-    </Button>
+   
 
                    
-    <Button onClick={() => {
+    <Button variant="dark" onClick={() => {
         cartItemPush(cart, user._id, itemId)
             .then((res) => {
             setCartUpdate(res.data.products);
@@ -125,7 +121,7 @@ const repetitions = Object.entries(itemNumber).map(([title, {count, itemId}]) =>
     </Button>
 
                   
-    <Button onClick={() => {
+    <Button variant="dark" onClick={() => {
         reduceOne(newCart, user._id, cart._id, itemId)
             .then((res) => {
             setCartUpdate(res.data.products);
@@ -133,7 +129,18 @@ const repetitions = Object.entries(itemNumber).map(([title, {count, itemId}]) =>
         setButtonClick(prev=> !prev) }}>
         Reduce
     </Button>
-  </p>
+
+    <Button variant="danger" onClick={() => {
+        reduceItem(newCart, user._id, cart._id, itemId)
+        .then((res) => {
+        setCartUpdate(res.data.products)
+        }
+        )
+        setButtonClick(prev=> !prev)}}>
+        Delete
+    </Button>
+    </>
+  
 ))
 
 
@@ -150,8 +157,8 @@ const allProductsInCart = cart.products.map(product => {
   return (
     <Col key={product._id}>
       <Figure>
-        <Figure.Image width={350} height={180} alt='171x180' src={product.img} />
-        {product.price} 
+        <Figure.Image width={350} height={180} alt='171x180' src={product.img} /> <br/>
+        Price : {product.price} 
 
         
       </Figure>
@@ -186,10 +193,10 @@ const allProductsInCart = cart.products.map(product => {
                 })
 
                 if(response.status === 200) {
-                    nav('/receipt', {state: {cart: cart, totalBill: totalBill}} )
-                } else {
-                    toast('Failure payment is not completed', {type: 'failure'})
-                }
+                    nav('/receipt', {state: {cart: cart, totalBill: totalBill}} )}
+                // } else {
+                //     toast('Failure payment is not completed', {type: 'failure'})
+                // }
             }
     //====================================================================
 
@@ -208,15 +215,47 @@ const allProductsInCart = cart.products.map(product => {
         </Col>
         <Col>
             {repetitions}
+            <br/>
             Total Bill = {totalBill}
+
+            
         </Col>
       </Row>
       </Container>
 
+      <Table striped>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Total Bill</th>
+            <th>Click to Pay</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>${totalBill}</td>
+            <td>
+            <StripeCheckout 
+              className= 'center'
+              stripeKey="pk_test_51MjOxGGWn0da1VDTZPMDt4ab4vsAOBSNI9oNrXq7gwxVLCHtX0EX8NicbDcPtl2muAJjOJOhePjgVfCBJA1lW7DF00q3pxqjlN"
+              token={handleToken}
+              amount={totalBill*100}
+              name={user.email}
+              billingAddress
+              shippingAddress
+            />
+            </td>
+            
+          </tr>
+        </tbody>
+      </Table>
+
 
         
 			
-			<div class="form-group container">
+			{/* <div class="form-group container">
 				<StripeCheckout 
 				className= 'center'
 				stripeKey="pk_test_51MjOxGGWn0da1VDTZPMDt4ab4vsAOBSNI9oNrXq7gwxVLCHtX0EX8NicbDcPtl2muAJjOJOhePjgVfCBJA1lW7DF00q3pxqjlN"
@@ -226,7 +265,7 @@ const allProductsInCart = cart.products.map(product => {
 				billingAddress
 				shippingAddress
 				/>
-		    </div>
+		    </div> */}
             
     
             

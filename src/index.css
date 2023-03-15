@@ -6,6 +6,12 @@
   font-size: 40px;
   color: black;
 }
+
+#content, #emptyCart{
+  font-family: 'Playball', cursive;
+  
+}
+
 #searchImg{
   height: 10px;
 }

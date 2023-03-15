@@ -10,6 +10,10 @@ import Tabs from 'react-bootstrap/Tabs';
 import Sonnet from '../../components/Sonnet';
 import { cartItemPush, showCart, reduceItem } from '../../api/cart';
 import SearchBar from '../SearchBar';
+import DatePicker from '../shared/DatePicker';
+import Pagination from 'react-bootstrap/Pagination';
+import Toast from 'react-bootstrap/Toast';
+
 
 function ShowItem(props) {
 
@@ -94,59 +98,35 @@ function ShowItem(props) {
     ////////////////// Display Item/product //////////////// 
     showItem(itemId)
       .then((res) => setItem(res.data.item))
-
-    ////////////// Find Cart if user exist ////////////
-
-      // if (user){
-      //   showCart(cart, user._id)
-      //       .then((res) => setCart(res.data.cart))
-      // }
-
    
   }, [triggerRefresh]);
 
-  //  if (user){
-  //       showCart(cart, user._id)
-  //           .then((res) => setCart(res.data.cart))
-  //     }
-
+//   if(item){
+//   const sizesArr = []
+//   item.size.map((number, index) => {
+//     sizesArr.push(
+//       <Pagination.Item key={index}>
+//         {number}
+//       </Pagination.Item>
+//     )
+//   })
+// }
   
-
- 
-
-    ////////// Calculating the number of times an item appears in cart
-    // if (user && cart){
-    //   const itemNumber = {}
-    
-    //   cart.products.forEach((item) => {
-    //       // The This forEach stores the reps of an id in the itemNumber object
-    //       const title = item.title
-    //       const itemId = item._id
-    //       if (title && !(title in itemNumber)) {
-    //           itemNumber[title] = { count: 1, itemId }
-    //         } else if (title) {
-    //           itemNumber[title].count++
-    //         }
-    //     })
-    //     ////////// Display Number
-    //     const newRepetitions = Object.entries(itemNumber).map(
-    //       ([title, { count, itemId }]) => (
-    //         <p key={title}>
-    //           * {title} : {count}{" "}
-    //         </p>
-    //       )
-    //     )
-    //     setRepetitions(newRepetitions)  
-    // }
-
   
   console.log(`Show Page Cart`, cart)
+
+  const productDetail = () => {
+    return(
+      <>
+      Hello
+      </>
+    )
+  }
 
 
   return (
     <div>
       <SearchBar/>
-      <h1>Show Item Page</h1>
       {repetitions}
       
 
@@ -161,22 +141,23 @@ function ShowItem(props) {
           <Tabs defaultActiveKey='home' id='fill-tab-example' className='mb-3' fill>
             <Tab eventKey='home' title='Info'>
               <Sonnet
-                title={item.title}
-                text={item.size}
+                title={item.title + ' - ' + item.color}
+                text='Use code FREESHIP at checkout for free Standard shipping. You can make a return or gift return by mail or in store for a full refund within 30 days of delivery. See our return policy for details.'
                 
                 
               />
             </Tab>
-            <Tab eventKey='profile' title='Color'>
+            <Tab eventKey='profile' title='Fabric'>
               <Sonnet
-                title='Color'
-                text={item.color}
+                title='Material'
+                text='An Italian-tailored wool jacket adorned with logo-engraved press studs to give the illusion of a double-breasted silhouette. The design is part of the Burberry Spring/Summer 2023 runway collection.'
+                
               />
             </Tab>
-            <Tab eventKey='longer-tab' title='Sonnet 3'>
+            <Tab eventKey='longer-tab' title='Book Appointment'>
               <Sonnet
-                title='Sonnet 3'
-                text='Look in thy glass and tell the face thou viewest Now is the time that face should form another...'
+                title='Book an appointment to try, exchange or return!'
+                text={<DatePicker/>}
               />
             </Tab>
             
@@ -190,7 +171,8 @@ function ShowItem(props) {
             <Figure.Image width={450} height={180} alt='171x180' src={item.img1} />
           </Figure>
         </Col>
-
+        
+    
         <Col>
             {user ? (
                 <>
@@ -206,11 +188,7 @@ function ShowItem(props) {
                     <Button onClick={() => {
                         reduceItem(cart, user._id, cart._id, item._id)
                         .then(() => setTriggerRefresh(prev => !prev))
-                    }}>Delete</Button>
-
-                    
-                    
-                    
+                    }}>Delete</Button> 
                 </>
             ) : (
                 <h1>Please log in to add items to your cart.</h1>

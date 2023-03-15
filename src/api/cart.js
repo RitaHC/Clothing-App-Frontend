@@ -12,7 +12,14 @@ export const showCart = (cart, id) => {
         data: {cart: cart}
     })
 }
-
+// -------------------- SHOW All False Carts ---------------
+export const allFalse = (cart, id) => {
+  return axios({
+    method: 'GET',
+    url: `${apiUrl}/cart/checkout/${id}`,
+    data: {cart: cart}
+  })
+}
 //------------------ CREATE (and PUSH items in cart) ---------------
 export const cartItemPush = (cart, userId, itemId) => {
     return axios({

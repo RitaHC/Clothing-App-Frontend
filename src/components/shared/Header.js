@@ -83,7 +83,7 @@ return (
 	null
 	}
 	
-	<Navbar  bg='dark' variant='light' expand='md'>
+	<Navbar  bg='dark' variant='dark' expand='md'>
 		<Navbar.Brand>
 		<Link id='brandName' className='navbar-text mr-4' to='/' style={linkStyle}>
 				FashionHolic
@@ -101,8 +101,8 @@ return (
             </Link> */}
 
         </Navbar.Brand>
-		<Navbar.Toggle aria-controls='basic-navbar-nav' />
-		<Navbar.Collapse id='basic-navbar-nav'>
+		<Navbar.Toggle aria-controls='basic-navbar-nav' variant="light"/>
+		<Navbar.Collapse id='basic-navbar-nav text-light' variant="light">
 			{/* <Nav ClassName='ml-auto'>
 				
 				{user && (

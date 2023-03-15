@@ -26,6 +26,7 @@ import { showCart } from './api/cart'
 
 //////////////// Payment Receipt
 import PaymentReceipt from './components/Cart/PaymentReceipt'
+import AllFalseCarts from './components/Cart/AllFalseCarts'
 
 
 const App = () => {
@@ -126,6 +127,21 @@ const App = () => {
 							path= '/products/:itemId'
 							element={
 								<ShowItem
+								msgAlert={msgAlert}
+								user={user}
+								item={item}
+								setItem={setItem}
+								cart={cart}
+								setCart={setCart}
+								
+								/>
+							}
+						/>
+
+						<Route
+							path= '/dashboard/cart/orderhistory/:userId'
+							element={
+								<AllFalseCarts
 								msgAlert={msgAlert}
 								user={user}
 								item={item}
