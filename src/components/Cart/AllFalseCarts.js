@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 
 function AllFalseCarts(props) {
     const { user } = props
-    console.log(`====False Cart User===`, user)
+    // console.log(`====False Cart User===`, user)
     const [carts, setCarts] = useState([])
 
     // API Call to get all negative Carts of this User

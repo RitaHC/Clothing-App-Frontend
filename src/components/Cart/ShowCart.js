@@ -33,14 +33,6 @@ function ShowCart(props) {
     const [buttonClick, setButtonClick] = useState(false);
 
 
-    //================== Count items Function =============
-    // const fc = (val) => {
-    //     return val.reduce((acc, item) => {
-    //       const id = item.id
-    //       acc[id] ? acc[id] += 1 : acc[id] = 1
-    //       return acc
-    //     }, {})
-    //   }
 
     	//=============================  STRIPE PAYMENTS ====================
         const [item, setItem] = useState({
@@ -54,7 +46,7 @@ function ShowCart(props) {
     useEffect(() => {
         showCart(cart, user._id)
             .then(res=> {
-                console.log(`--- TRIGGER REFRESH----`, buttonClick)
+                // console.log(`--- TRIGGER REFRESH----`, buttonClick)
                 setCart(res.data.cart)})
             .then(() => setButtonClick(false)); // reset buttonClick to false when the API call is complete
         
@@ -100,7 +92,7 @@ cart.products.forEach(item => {
     itemNumber[title].count++
   }
 })
-console.log(`Cart UPDATE`, cartUpdate)
+// console.log(`Cart UPDATE`, cartUpdate)
 // Displaying the name and no. of items in cart
 const repetitions = Object.entries(itemNumber).map(([title, {count, itemId}]) => (
   <>
@@ -250,28 +242,7 @@ const allProductsInCart = cart.products.map(product => {
             
           </tr>
         </tbody>
-      </Table>
-
-
-        
-			
-			{/* <div class="form-group container">
-				<StripeCheckout 
-				className= 'center'
-				stripeKey="pk_test_51MjOxGGWn0da1VDTZPMDt4ab4vsAOBSNI9oNrXq7gwxVLCHtX0EX8NicbDcPtl2muAJjOJOhePjgVfCBJA1lW7DF00q3pxqjlN"
-				token={handleToken}
-				amount={totalBill*100}
-				name={user.email}
-				billingAddress
-				shippingAddress
-				/>
-		    </div> */}
-            
-    
-            
-        
-    
-      
+      </Table>    
     </div>
   )
 }

@@ -88,37 +88,14 @@ return (
 		<Link id='brandName' className='navbar-text mr-4' to='/' style={linkStyle}>
 				FashionHolic
 		</Link>
-           
 
-			{/* <Link to={`/dashboard/`} style={linkStyle}>
-				{user && (
-						<span className='navbar-text mr-2'>Hello {user.email}</span>
-					)}
-					
-					{alwaysOptions}
-					{user ? authenticatedOptions : unauthenticatedOptions}
-                
-            </Link> */}
 
         </Navbar.Brand>
 		<Navbar.Toggle aria-controls='basic-navbar-nav' variant="light"/>
 		<Navbar.Collapse id='basic-navbar-nav text-light' variant="light">
-			{/* <Nav ClassName='ml-auto'>
-				
-				{user && (
-					<span ClassName='navbar-text mr-2'>Welcome, {user.email}</span>
-				)}
-				{alwaysOptions}
-				{user ? authenticatedOptions : unauthenticatedOptions}
-				
-			</Nav> */}
 
 			<Nav>
 			<Link to={`/dashboard/`} style={linkStyle}  className="justify-content-end">
-				{/* {user && (
-						<span className="justify-content-end"> {user.email}</span>
-					)} */}
-					
 					{alwaysOptions}
 					{user ? authenticatedOptions : unauthenticatedOptions}
 

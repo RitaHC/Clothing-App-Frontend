@@ -108,6 +108,8 @@ function PaymentReceipt(props) {
 
     const [falseCart, setFalseCart] = useState(null)
 
+
+//--------------------- Create PDF ----------------
     const generatePdf = () => {
 		const doc = new jsPDF("p", "pt", "a4")
 		doc.html(document.querySelector('#content'), {
@@ -117,23 +119,24 @@ function PaymentReceipt(props) {
 		})
 
 	}
+  //-------------------------------------------------
     // API Call to turn the present cart false and show in cart history
     useEffect(() => {
         activeFalse(falseCart, cart.id)
             .then(res=> console.log(`Cart turned False`, res))
     })
 
-    //--------------------- Create PDF ----------------
+    
 	
-	//-------------------------------------------------
+	
 
   return (
     <div>
         
         
 
-        <div>
-            <h1 id="content">Payment Receipt </h1>
+        <div id="content">
+            <h1 >Payment Receipt </h1>
             <h3>Thank you : {user.email}</h3>
             <h3>Your payment received:  ${totalBill}</h3>
             <h3>Your order includes: {length} items</h3>

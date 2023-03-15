@@ -17,15 +17,7 @@ function Dashboard(props) {
   } 
   return (
     <div>
-      {/* Hello My User<br/><br/>
-      <Link to={`cart/${user._id}`}> View Cart </Link>
-      <br/><br/>
-      <Link to={`cart/${user._id}`}>
-      <Button>View Cart</Button></Link>
-
-      {/* <Button>View Cart</Button><br/><br/><br/> */}
-      {/* <Button>Order History</Button><br/><br/><br/>
-      <Button>My Details</Button><br/><br/><br/>  */}
+      
 
       <Table striped>
       <thead>

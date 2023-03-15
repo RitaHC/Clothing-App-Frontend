@@ -11,15 +11,18 @@ import Sonnet from '../../components/Sonnet';
 import { cartItemPush, showCart, reduceItem } from '../../api/cart';
 import SearchBar from '../SearchBar';
 import DatePicker from '../shared/DatePicker';
-import Pagination from 'react-bootstrap/Pagination';
-import Toast from 'react-bootstrap/Toast';
+import Alert from 'react-bootstrap/Alert';
+
+
+
+
 
 
 function ShowItem(props) {
 
-  const { user, cart } = props
+  const { user, cart, msgAlert } = props
 //   console.log('User ID:', user ? user._id : 'Not logged in');
-  console.log(`Props Show Page`, props)
+  // console.log(`Props Show Page`, props)
 
   const [item, setItem] = useState([]);
   // const [cart, setCart] = useState(null)
@@ -27,6 +30,7 @@ function ShowItem(props) {
   const [triggerRefresh, setTriggerRefresh] = useState(false)
   const [newCart, setNewCart] = useState({})
   const [repetitions, setRepetitions] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
  
 
 
@@ -113,7 +117,8 @@ function ShowItem(props) {
 // }
   
   
-  console.log(`Show Page Cart`, cart)
+  // console.log(`Show Page Cart`, cart)
+
 
   const productDetail = () => {
     return(
@@ -126,6 +131,15 @@ function ShowItem(props) {
 
   return (
     <div>
+       {showAlert && 
+       (<>
+         
+         <Alert variant="success" onClose={() => setShowAlert(false)} dismissible>
+        <Alert.Heading>One Item Added to Cart</Alert.Heading>
+      </Alert>
+        </>
+          )}
+
       <SearchBar/>
       {repetitions}
       
@@ -142,7 +156,7 @@ function ShowItem(props) {
             <Tab eventKey='home' title='Info'>
               <Sonnet
                 title={item.title + ' - ' + item.color}
-                text='Use code FREESHIP at checkout for free Standard shipping. You can make a return or gift return by mail or in store for a full refund within 30 days of delivery. See our return policy for details.'
+                text={'Price:  ' + '$'+item.price}
                 
                 
               />
@@ -178,7 +192,10 @@ function ShowItem(props) {
                 <>
                     <Button onClick={() => {
                       cartItemPush(cart, user._id, item._id)
-                      .then(() => setTriggerRefresh(prev => !prev))
+                      .then(() => {
+                        setTriggerRefresh(prev => !prev)
+                        setShowAlert(true)
+                      })
                       
                     }
                   }>
@@ -211,7 +228,7 @@ function ShowItem(props) {
         </Col>
       </Row>
 
-      {item.price}
+      
     </div>
   );
 }
