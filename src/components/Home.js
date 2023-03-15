@@ -28,7 +28,7 @@ const Home = (props) => {
 	<ReactPlayer style={videoStyle} 
 	url='https://www.youtube.com/watch?v=8dvgueNbBd8'
 	volume='0.3'
-	// muted
+	muted
     width='100%'
     playing={true}
 	/>
